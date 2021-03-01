@@ -1,8 +1,0 @@
-# 应用名称
-spring:
-  application:
-    name: online-study
-  profiles:
-    active: dev
-server:
-  port: 8081
