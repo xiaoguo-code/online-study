@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script th:src="@{~/static/component/js/JQuery2.1.4.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/component/style/components.css}">
+    <script th:src="@{~/static/component/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/themes.css}">
+    <script th:src="@{~/static/component/plugins/laydate/laydate.js}"></script>
+    <script th:src="@{~/static/component/plugins/layer/layer.js}"></script>
+    <script th:src="@{~/static/category/category01.js}"></script>
+    <script th:src="@{~/static/js/thymeleaf-bootstrap-paginator.js}"></script>
+
+    <style>
+        .chec {
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="body" >
+        <ol class="breadcrumb">
+            <li class="active"><a href="#">类别管理</a></li>
+            <li>一级分类</li>
+        </ol>
+
+        <div class="barboxs">
+<!--            <button class="btn btn-success pull-left" data-toggle="tooltip" title="" data-placement="right"-->
+<!--                data-original-title="创建文档"><i class="fa fa-file-word-o"></i></button>-->
+<!--            <button class="btn btn-warning pull-left ml10" data-toggle="tooltip" title="" data-placement="right"-->
+<!--                data-original-title="下架文档"><i class="fa fa-level-down"></i></button>-->
+            <button class="btn btn-danger pull-left ml10" data-toggle="tooltip" title="" id="multiDelete" data-placement="right"
+                data-original-title="删除类别"><i class="fa fa-trash-o"></i></button>
+            <a href="javascript:;" class="btn pull-left ml10 btn-success" data-toggle="modal" data-target="#iconModal"
+               data-placement="top" id="addName" title="添加类别"><i
+                    class="fa fa fa-plus"></i></a>
+            <div class="leftbox">
+                <div class="liselect">
+                    <select id="parentId_select" style="display: none" name="val_skill" class="form-control ">
+                        <option value="">一级类别</option>
+                    </select>
+                </div>
+
+                <div class="liselect">
+                    <select id="child02Id_select" style="display: none" name="val_skill" class="form-control ">
+                        <option value="">发布状态</option>
+                    </select>
+                </div>
+<!--                <div class="ml10">-->
+<!--                    <div class="input-group date input-datepicker mtb0">-->
+<!--                        <input type="text" id="date" placeholder="请选择时间段"-->
+<!--                            name="date" class="form-control cursorpointer" readonly="readonly">-->
+<!--                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <div class="liselect w300">
+                    <div class="input-group">
+                        <input type="text"  id="searchCondition" class="form-control example-typeahead"
+                            placeholder="请输入类别名称">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" id="searchBtn"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="push">
+            <button class="btn btn-success pull-left"><i class="fa fa-plus"></i> 创建文章</button>
+        </div> -->
+        <div class="tablebox" id="tableBox">
+
+            <table class="table table-bordered table-hover" id="categoryTable">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="50"><input type="checkbox" id="checkBoxAll" name="checkBoxAll">
+                        </th>
+                        <th class="text-center">序号</th>
+                        <th >名称</th>
+                        <th>创建时间</th>
+                        <th>更新时间</th>
+                        <th class="cell-small text-center" style="width: 200px"><i class="fa fa-bolt"></i> 操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="category,obj:${categoryModel.categoryList}">
+                        <td class="text-center"><input type="checkbox" id="check5-td1" th:value="${category.categoryId}" name="check5-td1">
+                        </td>
+                        <td class="cell-small text-center" th:text="${(page.currPage-1)*page.pageSize+obj.count}">1</td>
+                        <td><a th:href="@{/category/listChild2(parentId=${category.categoryId})}" id="listChildCategory02" th:attr="cateId=${category.categoryId}"  th:text="${category.title}">交通设施生产厂家哪家好？交通标志厂家怎么选？</a></td>
+                        <td><span class="label label-success" th:text="${category.createTime}">2021-03-21 23:07:31</span></td>
+                        <td><span class="label label-success" th:text="${category.updateTime}==null? -- : ${category.updateTime}">2021-03-21 23:07:31</span></td>
+                        <td class="text-center" width="100" >
+                            <div class="btn-group"  >
+<!--                                <a href="javascript:void(0)" class="btn btn-xs btn-info"><i-->
+<!--                                        class="fa fa-info-circle"></i></a>-->
+<!--                                <a  href="javascript:;" class="btn btn-xs btn-success" data-toggle="modal"-->
+<!--                                    data-target="#iconModal"  th:attr="cateId=${category.categoryId},cateName=${category.title}" id="editName" title="编辑"><i-->
+<!--                                        class="fa fa-pencil"></i></a>-->
+                                <a href="javascript:;" class="btn btn-xs btn-success" data-toggle="modal" data-target="#iconModal"
+                                   data-placement="top" th:attr="cateId=${category.categoryId},cateName=${category.title}" id="editName" title="编辑"><i class="fa fa-pencil"></i></a>
+                                <a href="javascript:;" class="btn btn-xs btn-danger delbtn" data-toggle="tooltip"
+                                    data-placement="top" th:attr="cateId=${category.categoryId}" id="deleteCategory" title="删除"><i class="fa fa-trash-o"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div  th:replace="~{fragments/page :: page}">...</div>
+        </div>
+        <!-- 模态框 -->
+        <div class="modal face" id="iconModal">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content" >
+                    <!-- 模态框头部 -->
+                    <div class="modal-header">
+                        <h3 class="modal-title">类别名</h3>
+<!--                        <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    </div>
+                    <!-- 模态框主体 -->
+                    <div class="modal-body">
+                        <div>
+                            <form>
+                                <input type="hidden" id="categoryId" name="categoryId">
+                                <input type="hidden" id="addParentId" value="0" name="addParentId">
+                                <div class="inputbox">
+<!--                                    <span class="title"><em style="color: red">*</em> 访问控制器</span>-->
+                                    <div class="inputright">
+                                        <input type="text" name="title" id="title" class="form-control input-sm">
+                                    </div>
+                                </div>
+                                <input class="submitFormInput" type="submit" style="display:none" />
+                            </form>
+                        </div>
+                    </div>
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button  type="button"  id="editSubmitBtn" class="btn btn-outline-primary submitFormBtn" data-dismiss="modal">确认</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $('.dropdown-toggle').dropdown();
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        //日期范围
+        laydate.render({
+        elem: '#date'
+        ,range: true,
+        theme:"#5cb85c"
+        });
+
+
+    </script>
+</body>
+
+</html>

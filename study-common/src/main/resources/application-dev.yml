@@ -1,0 +1,74 @@
+
+
+
+spring:
+  #spring.数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/db_study?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false
+    type: com.alibaba.druid.pool.DruidDataSource
+    #spring.datasource.druid数据库连接池
+    druid:
+      initial-size: 1
+      min-idle: 1
+      max-active: 5
+      max-wait: 60000
+      time-between-eviction-runsMillis: 60000
+      min-evictable-idle-timeMillis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat
+  #spring.mongodb配置
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      username: root
+      password: 123456
+      database: db_study
+      #uri: mongodb://root:123456@127.0.0.1:27017/db_study
+  #spring.devtools开发者工具：自动重启服务，修改java下的文件，自动重启
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+  #spring.jsckson配置
+  jackson:
+    serialization:
+      #保证@ResponseBody时，Date会自动转化为timeStamp的数值(毫秒数)
+      WRITE_DATES_AS_TIMESTAMPS: true
+    time-zone: GMT+8
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+  thymeleaf:
+    cache: false # 关闭页面缓存
+    encoding: UTF-8 # 模板编码
+    prefix: classpath:/templates/  # 页面映射路径
+    suffix: .html # 试图后的后缀
+    mode: HTML # 模板模式
+
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+    #配置静态资源路径
+  mvc:
+    static-path-pattern: /static/**
+#mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  #type-aliases-package: com.gyr.online-study.entity
+  configuration:
+    #驼峰命名转换，实体类：userId->数据库为user_id
+    map-underscore-to-camel-case: false  #关闭转换
+      #cache-enabled: false
+
+#logging:
+#  config: classpath:log4j2.xml
