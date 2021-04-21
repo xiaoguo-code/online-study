@@ -49,59 +49,21 @@ public class CategoryController {
                                      CategoryConditionVO conditionVO,
                                      Model model){
         log.info("1、获取父级类别信息列表!");
+        log.info("查询条件：{}",GsonUtils.toJSON(conditionVO));
         PageUtils page =null;
+        List<CategoryInfo> parentCategory = null;
         try {
-             page = categoryService.getParentCategory(conditionVO);
-
+             page = categoryService.getAllCategory(conditionVO);
         } catch (Exception e) {
             log.error("获取父级类别信息列表异常：", e);
         }
         log.info("page:{}",page.toString());
+        //log.info("parentCategory:{}",parentCategory.toString());
         model.addAttribute("categoryList",page.getList());
         model.addAttribute("page",page);
-        return new ModelAndView(!async?"category/category01":"category/category01::#tableBox",
-                "categoryModel",model);
-    }
-
-
-
-    @GetMapping("/listChild2")
-    public ModelAndView toCategory02(@RequestParam(value = "async",required = false) boolean async,
-                               CategoryConditionVO conditionVO,
-                               Model model){
-        log.info("1、listChild2根据父级类别id:{}，查询类别信息!", conditionVO.getParentId());
-        PageUtils page =null;
-        List<CategoryInfo> parentCategory = null;
-        try {
-            page = categoryService.getChildCategoryByParentId(conditionVO);
-             parentCategory = categoryService.getParentCategory();
-        } catch (Exception e) {
-            log.error("根据父级类别id：{}查询异常：{}", conditionVO.getParentId(), e);
-        }
-        log.info("page:{}",page.toString());
-        model.addAttribute("categoryList",page.getList());
-        model.addAttribute("parentCategory",parentCategory);
+        //model.addAttribute("parentCategory",parentCategory);
         model.addAttribute("parentId",conditionVO.getParentId());
-        model.addAttribute("page",page);
-        return new ModelAndView(!async?"category/category02":"category/category02::#tableBox",
-                "categoryModel",model);
-    }
-
-    @GetMapping("/listChild3")
-    public ModelAndView toCategory03(@RequestParam(value = "async",required = false) boolean async,
-                                     CategoryConditionVO conditionVO,
-                                     Model model){
-        log.info("1、listChild3根据父级类别id:{}，查询类别信息!", conditionVO.getParentId());
-        PageUtils page =null;
-        try {
-            page = categoryService.getChildCategoryByParentId(conditionVO);
-        } catch (Exception e) {
-            log.error("根据父级类别id：{}查询异常：{}", conditionVO.getParentId(), e);
-        }
-        log.info("page:{}",page.toString());
-        model.addAttribute("categoryList",page.getList());
-        model.addAttribute("page",page);
-        return new ModelAndView(!async?"category/category03":"category/category03::#tableBox",
+        return new ModelAndView(!async?"category/category01":"category/category01::#tableBox",
                 "categoryModel",model);
     }
 
@@ -125,18 +87,129 @@ public class CategoryController {
     /**
      * 获取父级类别信息列表
      */
-    @RequestMapping("/listParent")
-//    @RequiresPermissions("generator:category:list")
-    public ModelAndView list(Model model) {
-        log.info("1、获取父级类别信息列表!");
-        List<CategoryInfo> parentCategoryList = null;
+//    @RequestMapping("/listParent")
+////    @RequiresPermissions("generator:category:list")
+//    public ModelAndView list(Model model) {
+//        log.info("1、获取父级类别信息列表!");
+//        List<CategoryInfo> parentCategoryList = null;
+//        try {
+//            //parentCategoryList = categoryService.getParentCategory();
+//        } catch (Exception e) {
+//            log.error("获取父级类别信息列表异常：", e);
+//        }
+//        model.addAttribute("parentCategoryList",parentCategoryList);
+//        return new ModelAndView("category/category01","categoryModel01",model);
+//    }
+
+    /**
+     * 获取一级类别信息列表
+     * @param model
+     * @return
+     */
+    @GetMapping("/getParentCategory")
+    public ModelAndView getParentCategory(Integer type,
+                                        Integer parentId,
+                                        Model model) {
+        log.info("1、获取一级类别信息列表!");
+        List<CategoryInfo> parentCategory = null;
         try {
-            //parentCategoryList = categoryService.getParentCategory();
+            parentCategory = categoryService.getParentCategory(0);
         } catch (Exception e) {
             log.error("获取父级类别信息列表异常：", e);
         }
-        model.addAttribute("parentCategoryList",parentCategoryList);
-        return new ModelAndView("category/category01","categoryModel01",model);
+        log.info("parentCategory:{}", GsonUtils.toJSON(parentCategory));
+        model.addAttribute("parentCategory", parentCategory);
+
+        if(type==2){
+            model.addAttribute("parentId", parentId);
+            return new ModelAndView( "category/category01::#add_parentId_select",
+                    "categoryModel", model);
+        }else{
+            model.addAttribute("parentId", parentId);
+            return new ModelAndView( "category/category01::#parentId_select",
+                    "categoryModel", model);
+        }
+
+
+
+    }
+
+    /**
+     * 获取二级类别信息列表
+     * @param model
+     * @return
+     */
+    @GetMapping("/getchildCategory")
+    public ModelAndView getchildCategory(Integer type,Integer parentId,
+            Model model) {
+        log.info("1、获取一级类别信息列表!");
+        List<CategoryInfo> parentCategory = null;
+        if (parentId==0){
+            return new ModelAndView( "category/category01::#childId_select",
+                    "categoryModel", model);
+        }
+        try {
+            parentCategory = categoryService.getParentCategory(parentId);
+        } catch (Exception e) {
+            log.error("获取父级类别信息列表异常：", e);
+        }
+        log.info("parentCategory:{}", parentCategory.toString());
+        model.addAttribute("parentCategory", parentCategory);
+        if (type == 2) {
+            model.addAttribute("parentId", parentId);
+            return new ModelAndView( "category/category01::#add_childId_select",
+                    "categoryModel", model);
+        }else{
+            return new ModelAndView( "category/category01::#childId_select",
+                    "categoryModel", model);
+        }
+
+    }
+
+    private  static Integer pre;
+    private  static Integer count=0;
+    /**
+     * 获取上一层级类别信息列表
+     * @param model
+     * @return
+     */
+    @GetMapping("/getPrechildCategory")
+    public ModelAndView getPrechildCategory(Integer type,Integer preParentId,
+                                         Model model) {
+        log.info("1、获取一级类别信息列表!");
+        List<CategoryInfo> parentCategory = null;
+        CategoryInfo categoryInfoById2 = null;
+
+        try {
+            if(count==0){
+                categoryInfoById2 = categoryService.getCategoryInfoById(preParentId);
+                log.info("类别：{}",categoryInfoById2.toString());
+                parentCategory = categoryService.getParentCategory(Integer.getInteger(categoryInfoById2.getParentId()));
+                pre = Integer.getInteger(categoryInfoById2.getParentId());
+                count=1;
+            }else{
+                categoryInfoById2 = categoryService.getCategoryInfoById(pre);
+                log.info("类别：{}",categoryInfoById2.toString());
+                parentCategory = categoryService.getParentCategory(Integer.getInteger(categoryInfoById2.getParentId()));
+                pre = Integer.getInteger(categoryInfoById2.getParentId());
+                count=0;
+            }
+
+        } catch (Exception e) {
+            log.error("获取父级类别信息列表异常：", e);
+        }
+        log.info("parentCategory:{}", parentCategory.toString());
+        model.addAttribute("parentCategory", parentCategory);
+        if (type == 2) {
+            model.addAttribute("parentId", preParentId);
+            return new ModelAndView( "category/category01::#add_childId_select",
+                    "categoryModel", model);
+        }else{
+            model.addAttribute("parentId", pre);
+            return new ModelAndView( "category/category01::#add_parentId_select",
+                    "categoryModel", model);
+        }
+
     }
 
     /**
@@ -176,29 +249,9 @@ public class CategoryController {
         return R.ok().put("categoryVO", categoryVO);
     }
 
-    /**
-     * 保存
-     */
-    @PostMapping("/save")
-    @ResponseBody
-    //@RequiresPermissions("generator:category:save")
-    public R save(@RequestBody CategoryInfo categoryInfo) {
-        log.info("1、类别-save-参数：{}", GsonUtils.toJSON(categoryInfo));
-        try {
-            categoryInfo.setCreateTime(DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
-            categoryInfo.setIsDelete("0");
-            categoryInfo.setParentId("0");
-            boolean flag = categoryService.save(categoryInfo);
-            log.info("类别新增成功！-{}", flag);
-        } catch (Exception e) {
-            log.error("类别新增异常：", e);
-            return R.error();
-        }
-        return R.ok();
-    }
 
     /**
-     * 修改
+     * 新增和更新
      */
     @PostMapping("/update")
     @ResponseBody

@@ -20,8 +20,11 @@ public interface CategoryService {
     List<CategoryInfo> findAllCategory();
 
     /**
-     * 获取所有的二级分类
+     * 获取所有类别信息
      */
+    PageUtils getAllCategory(CategoryConditionVO conditionVO);
+
+
 
     /**
      * 获取第一层级类别信息
@@ -33,7 +36,13 @@ public interface CategoryService {
      * 获取第一层级类别信息
      * @return
      */
-    List<CategoryInfo> getParentCategory();
+    List<CategoryInfo> getParentCategory(Integer parentId);
+
+    /**
+     * 获取上一层级类别信息
+     * @return
+     */
+    List<CategoryInfo> getPreParentCategory(Integer parentId);
 
     /**
      * 根据父类别id获取所有层级类别信息

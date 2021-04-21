@@ -44,6 +44,8 @@ public class PageUtils implements Serializable {
 	private boolean first;
 	private boolean last;
 
+	public static final String ORDER_ASC = "ASC"; //升降序
+	public static final String ORDER_DESC = "DESC"; //升降序
 
 
 	/**

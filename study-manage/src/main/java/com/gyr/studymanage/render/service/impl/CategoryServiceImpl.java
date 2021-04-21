@@ -60,6 +60,32 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return treeList;
     }
+
+    /**
+     * 获取所有类别信息
+     *
+     * @param conditionVO
+     */
+    @Override
+    public PageUtils getAllCategory(CategoryConditionVO conditionVO) {
+        if(conditionVO.getPageIndex()==null){
+            conditionVO.setPageIndex(1);
+        }
+        if(conditionVO.getPageSize()==null){
+            conditionVO.setPageSize(10);
+        }
+        IPage<CategoryInfo> page = new Page<>(conditionVO.getPageIndex(),conditionVO.getPageSize());
+        QueryWrapper wrapper = new QueryWrapper();
+        if(conditionVO.getParentId()!=null&&conditionVO.getParentId()!=0){
+            wrapper.eq("parentId",conditionVO.getParentId());
+        }
+        if(StringUtils.isNotBlank(conditionVO.getTitle())){
+            wrapper.like("title",conditionVO.getTitle());
+        }
+        IPage iPage = categoryMapper.selectPage(page, wrapper);
+        return new PageUtils(iPage);
+    }
+
     /**
      * 获取第一层级类别信息
      * @return
@@ -89,10 +115,30 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
-    public List<CategoryInfo> getParentCategory() {
+    public List<CategoryInfo> getParentCategory(Integer parentId) {
 
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.eq("parentId","0");
+        if(parentId!=null){
+            wrapper.eq("parentId",parentId);
+
+        }
+        List list = categoryMapper.selectList(wrapper);
+        return list;
+    }
+
+    /**
+     * 获取上一层级类别信息
+     *
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<CategoryInfo> getPreParentCategory(Integer parentId) {
+        QueryWrapper wrapper = new QueryWrapper();
+        if(parentId!=null){
+            wrapper.eq("categoryId",parentId);
+
+        }
         List list = categoryMapper.selectList(wrapper);
         return list;
     }
