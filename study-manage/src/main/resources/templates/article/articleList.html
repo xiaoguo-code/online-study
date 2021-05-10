@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习平台后台管理</title>
+    <script th:src="@{~/static/component/js/JQuery2.1.4.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/component/style/components.css}">
+    <script th:src="@{~/static/component/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/themes.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/component-tageditor.css}">
+    <script th:src="@{~/static/component/plugins/laydate/laydate.js}"></script>
+    <script th:src="@{~/static/component/plugins/layer/layer.js}"></script>
+<!--    <script th:src="@{~/static/category/category01.js}"></script>-->
+    <script th:src="@{~/static/js/thymeleaf-bootstrap-paginator.js}"></script>
+<!--    <script th:src="@{~/static/js/jquery.tag-editor.js}"></script>-->
+    <script th:src="@{~/static/article/js/articleList.js}"></script>
+
+    <style>
+        .chec {
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="body" >
+        <ol class="breadcrumb">
+            <li class="active"><a href="#">学习路线管理</a></li>
+<!--            <li>一级分类</li>-->
+        </ol>
+
+        <div class="barboxs">
+<!--            <button class="btn btn-success pull-left" data-toggle="tooltip" title="" data-placement="right"-->
+<!--                data-original-title="创建文档"><i class="fa fa-file-word-o"></i></button>-->
+<!--            <button class="btn btn-warning pull-left ml10" data-toggle="tooltip" title="" data-placement="right"-->
+<!--                data-original-title="下架文档"><i class="fa fa-level-down"></i></button>-->
+            <button class="btn btn-danger pull-left ml10" data-toggle="tooltip" title="" id="multiDeleteBtn" data-placement="right"
+                data-original-title="删除文章"><i class="fa fa-trash-o"></i></button>
+<!--            <a href="javascript:;" class="btn pull-left ml10 btn-success" data-toggle="modal" data-target="#iconModal"-->
+<!--               data-placement="top" id="addName" title="添加类别"><i-->
+<!--                    class="fa fa fa-plus"></i></a>-->
+            <div class="leftbox">
+<!--                <div class="liselect" id="parentChildSelect">-->
+<!--                    <select id="parentId_select" name="val_skill" class="form-control ">-->
+<!--                        <option value="">一级类别</option>-->
+<!--                        <option th:each="parent : ${parentCategory}" th:value="${parent.categoryId}"-->
+<!--                                th:text="${parent.title}"-->
+<!--                                th:selected="${parent.categoryId}==${parentId}" value="">一级类别</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--                <div class="liselect" id="ChildSelect">-->
+<!--                    <select id="childId_select" name="val_skill" class="form-control ">-->
+<!--                        <option value="">二级类别</option>-->
+<!--                        <option th:each="parent : ${parentCategory}" th:value="${parent.categoryId}"-->
+<!--                                th:text="${parent.title}"-->
+<!--                                th:selected="${parent.categoryId}==${parentId}" value="">一级类别</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--                <div class="ml10">-->
+<!--                    <div class="input-group date input-datepicker mtb0">-->
+<!--                        <input type="text" id="date" placeholder="请选择时间段"-->
+<!--                            name="date" class="form-control cursorpointer" readonly="readonly">-->
+<!--                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <div class="liselect w300">
+<!--                    <input type="hidden" id="parentId" th:value="${studyLineModel.parentId}">-->
+                    <div class="input-group">
+                        <input type="text"  id="searchCondition" class="form-control example-typeahead"
+                            placeholder="请输入课程名">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" id="searchBtn"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="push">
+            <button class="btn btn-success pull-left"><i class="fa fa-plus"></i> 创建文章</button>
+        </div> -->
+        <div class="tablebox" id="tableBox" >
+
+            <table class="table table-bordered table-hover" id="studyLineTable" >
+
+                <thead>
+                    <tr>
+                        <th class="text-center" width="50"><input type="checkbox" id="checkBoxAll" name="checkBoxAll">
+                        </th>
+                        <th class="text-center">序号</th>
+                        <th class="text-center">文章标题</th>
+                        <th class="text-center">类型</th>
+                        <th class="text-center">发布时间</th>
+                        <th class="text-center">浏览</th>
+                        <th class="text-center">审核状态</th>
+                        <th class="cell-small text-center" style="width: 200px"><i class="fa fa-bolt"></i> 操作</th>
+                    </tr>
+                </thead>
+                <tbody th:if="${#lists.size(articleModel.articleList) eq 0}">
+                    <td class=" text-center"  colspan="8">文章列表为空</td>
+                </tbody>
+                <tbody th:unless="${#lists.size(articleModel.articleList) eq 0}">
+                    <tr th:each="article,obj:${articleModel.articleList}">
+                        <td class="text-center"><input type="checkbox" id="check5-td1" th:value="${article.blogId}" name="check5-td1">
+                        </td>
+<!--                        <td class="cell-small text-center" th:text="${(page.currPage-1)*page.pageSize+obj.count}">1</td>-->
+                        <td class="cell-small text-center" th:text="${(page.currPage-1)*page.pageSize+obj.count}">1</td>
+                        <td><a  th:attr="blogId=${article.blogId}"  th:text="${article.title}">交通设施生产厂家哪家好？交通标志厂家怎么选？</a></td>
+                        <td class=" text-center" th:text="${article.blogType}"></td>
+                        <td class=" text-center" th:text="${article.publishTime}==null? -- : ${article.publishTime}"></td>
+                        <td class=" text-center" th:text="${article.views}"></td>
+<!--                        <td class=" text-center" >-->
+<!--                            <input type="text" class="form-control form-control-tag"  th:value="${article.courseNames}==null? '' : ${article.courseNames}">-->
+<!--                        </td>-->
+<!--                        <td><span class="label " th:text="${article.publishTime}==null? &#45;&#45; : ${article.publishTime}">2021-03-21 23:07:31</span></td>-->
+                        <td th:if="${article.checkStatus=='publish'}"><span class="label label-success" >发布</span></td>
+                        <td th:if="${article.checkStatus=='no'}"><span class="label label-success" >未过审</span></td>
+                        <td class="text-center" width="100" >
+                            <div class="btn-group"  >
+                                <a th:href="@{'/admin/article/edit/'+${article.blogId}}" class="btn btn-xs btn-success"
+                                   data-placement="top"
+                                    title="修改"><i class="fa fa-pencil"></i></a>
+                                <a href="javascript:;" class="btn btn-xs btn-danger delbtn" data-toggle="tooltip"
+                                    data-placement="top" th:attr="blogId=${article.blogId}"
+                                    id="deleteLineBtn" title="删除"><i class="fa fa-trash-o"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div  th:replace="~{fragments/page :: page}">...</div>
+
+        </div>
+    </div>
+
+    <script>
+        $('.dropdown-toggle').dropdown();
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        //日期范围
+        laydate.render({
+        elem: '#date'
+        ,range: true,
+        theme:"#5cb85c"
+        });
+
+
+    </script>
+</body>
+
+</html>

@@ -17,6 +17,10 @@ import java.util.List;
  */
 public interface AdminService {
 
+    AdminInfo login(AdminInfo adminInfo);
+
+    AdminInfo getAdminInfoLogin(AdminInfo adminInfo);
+
     /**
      * 根据条件查询管理员列表（分页）
      * @param conditions

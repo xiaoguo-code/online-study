@@ -19,6 +19,6 @@ public class CourseSectionVO extends CourseSectionInfo {
     /**
      * 当前页数
      */
-    private Integer currPage;
+    private Integer pageIndex;
 
 }

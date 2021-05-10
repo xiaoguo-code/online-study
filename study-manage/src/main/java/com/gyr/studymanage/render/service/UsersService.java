@@ -29,7 +29,7 @@ public interface UsersService {
      * @param userId
      * @return
      */
-    UsersInfo getAdminInfoById(Integer userId);
+    UsersInfo getUserInfoById(Integer userId);
 
     /**
      * 新增管理员

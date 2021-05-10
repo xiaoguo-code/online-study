@@ -16,4 +16,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsersInfo extends Users{
 
+    private Integer status;
+
+    private String createTime;
+
+    private String updateTime;
+
 }

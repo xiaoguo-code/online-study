@@ -11,6 +11,7 @@ package com.gyr.studycommon.util;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -62,6 +63,36 @@ public class PageUtils implements Serializable {
 		this.currPage = currPage;
 		this.totalPage = (int)Math.ceil((double)totalCount/pageSize);
 	}
+
+	/**
+	 * 逻辑分页
+	 * @param list        列表数据
+	 * @param pageSize    每页记录数
+	 * @param currPage    当前页数
+	 */
+	public PageUtils(int pageSize, int currPage,List<?> list) {
+		int begin = (currPage-1) * pageSize	;
+		int end = begin + pageSize ;
+		int totalCount = list.size();
+		if(end>totalCount){
+			end = totalCount;
+		}
+		//总页数
+		this.totalPage = (int)Math.ceil((double)totalCount/pageSize);
+		List<?> result = null;
+		if(list.isEmpty()){
+
+		}else{
+			result = list.subList(begin, end);
+		}
+
+		this.list = result;
+		this.totalCount = totalCount;
+		this.pageSize = pageSize;
+		this.currPage = currPage;
+		this.setCurrPage(currPage);
+	}
+
 
 	/**
 	 * 分页

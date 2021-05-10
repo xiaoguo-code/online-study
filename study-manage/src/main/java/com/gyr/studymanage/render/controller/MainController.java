@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Date: 2021-03-28 19:50
  */
 @Controller
-@RequestMapping("admin")
+@RequestMapping("/admin")
 public class MainController {
 
-    @GetMapping("index")
+    @GetMapping("/index")
     public String toIndex(){
         return "index";
     }

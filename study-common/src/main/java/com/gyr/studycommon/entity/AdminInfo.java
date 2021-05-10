@@ -14,7 +14,7 @@ import java.util.List;
  * @Date: 2021-03-26 16:20
  */
 @Data
-@TableName("admin")
+@TableName("admins")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Component
 public class AdminInfo extends Admin{
@@ -27,9 +27,13 @@ public class AdminInfo extends Admin{
      * 更新时间
      */
     private String updateTime;
+
+    private Integer status;
+
     /**
      * 角色
      */
+    @TableField(exist = false)
     private String role;
     /**
      * 权限

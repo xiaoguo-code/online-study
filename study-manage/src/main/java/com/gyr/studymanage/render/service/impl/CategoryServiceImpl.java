@@ -126,6 +126,19 @@ public class CategoryServiceImpl implements CategoryService {
         return list;
     }
 
+    @Override
+    public List<CategoryInfo> getCategoryByCondition(CategoryConditionVO conditionVO) {
+        QueryWrapper wrapper = new QueryWrapper();
+        if(conditionVO.getParentId()!=null){
+            wrapper.eq("parentId",conditionVO.getParentId());
+        }
+        if(StringUtils.isNotBlank(conditionVO.getTitle())){
+            wrapper.like("title",conditionVO.getTitle());
+        }
+        List list = categoryMapper.selectList(wrapper);
+        return list;
+    }
+
     /**
      * 获取上一层级类别信息
      *
@@ -188,6 +201,21 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return null;
     }
+
+    /**
+     * 返回id字符串   “1,2,3"
+     *
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public String getParentChildIdToStr(String categoryId) {
+        CategoryInfo three = getCategoryInfoById(Integer.parseInt(categoryId));
+        CategoryInfo two = getCategoryInfoById(Integer.parseInt(three.getParentId()));
+        CategoryInfo one = getCategoryInfoById(Integer.parseInt(two.getParentId()));
+        return one.getCategoryId()+","+two.getCategoryId()+","+three.getCategoryId();
+    }
+
     /**
      * 新增类别信息
      * @param categoryInfo

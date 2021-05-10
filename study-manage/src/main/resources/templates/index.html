@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>学习平台后台管理</title>
     <script th:src="@{~/static/component/js/JQuery2.1.4.js}"></script>
     <link rel="stylesheet" th:href="@{~/static/component/style/components.css}">
     <link rel="stylesheet" th:href="@{~/static/css/bootstrap.css}">
@@ -31,21 +31,20 @@
                     <i class="fa fa-globe"></i>
                 </a>
 
-                Cms
 
-                <a href="" title="生成百度地图">
-                    <i class="fa fa-paw"></i>
+                <a href="" title="">
+                    <i class="fa " th:text="${session.login_user==null ? '--' :session.login_user.adminName}">guoyr</i>
                 </a>
 
-                <a href="" title="清空缓存">
-                    <i class="fa fa-trash-o"></i>
-                </a>
+<!--                <a href="" title="清空缓存">-->
+<!--                    <i class="fa fa-trash-o"></i>-->
+<!--                </a>-->
 
-                <a href="" title="网站设置">
-                    <i class="fa fa-cog"></i>
-                </a>
+<!--                <a href="" title="网站设置">-->
+<!--                    <i class="fa fa-cog"></i>-->
+<!--                </a>-->
 
-                <a href="login.html" title="退出">
+                <a href="/admin/logout" title="退出">
                     <i class="fa fa-power-off"></i>
                 </a>
             </div>
@@ -54,11 +53,32 @@
         <section class="body">
             <div class="left">
                 <div class="navbar">
+<!--                    <dl>-->
+<!--                        <dt ><a href="/admin/category/listParent" target="rightiframe"><i class="fa fa-fw fa-tachometer"></i><span>控制面板</span></a></dt>-->
+<!--                    </dl>-->
                     <dl>
-                        <dt ><a href="/category/listParent" target="rightiframe"><i class="fa fa-fw fa-tachometer"></i><span>控制面板</span></a></dt>
+                        <dt class="activeTop"><i class="fa fa-fw fa-users"></i> <span>会员管理</span></dt>
+                        <dd class="active">
+                            <div class='li' >
+                                <a href="/admin/user/listUser"  class="activelinks" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>会员列表</span></a>
+                            </div>
+                        </dd>
                     </dl>
                     <dl>
-                        <dt class="activeTop"><a href="/category/listParent"  target="rightiframe"><i class="fa fa-fw fa-tachometer"></i><span>类别管理</span></a></dt>
+                        <dt><i class="fa fa-fw fa-user"></i> <span>管理列表</span></dt>
+                        <dd>
+                            <div class='li'>
+                                <a href="/admin/listAdmin" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>管理员列表</span></a>
+                            </div>
+                            <div class='li'>
+                                <a href="javascript:;"><i class="fa fa-fw fa-angle-right"></i><span>管理员权限</span></a>
+                            </div>
+
+                        </dd>
+                    </dl>
+                    <!--class="activeTop"-->
+                    <dl>
+                        <dt ><a href="/admin/category/listParent"  target="rightiframe"><i class="fa fa-fw fa-tachometer"></i><span>类别管理</span></a></dt>
                     </dl>
 <!--                    <dl>-->
 <!--                        <dt class="activeTop"><i class="fa fa-fw fa-file-word-o"></i> <span>类别管理</span></dt>-->
@@ -75,121 +95,49 @@
 <!--                        </dd>-->
 <!--                    </dl>-->
                     <dl>
-                        <dt><i class="fa fa-fw fa-reorder"></i> <span>栏目管理</span></dt>
-                        <dd>
-                            <div class='li'>
-                                <a href="column.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>栏目列表</span></a>
-                            </div>
-
-                            <div class='li'>
-                                <a href="column_create.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>创建栏目</span></a>
-                            </div>
-
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt><i class="fa fa-fw fa-tags"></i> <span>关键词库</span></dt>
-                        <dd>
-                            <div class='li'>
-                                <a href="keywords.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>关键词列表</span></a>
+                        <dt><i class="fa fa-fw fa-reorder"></i> <span>学习路线管理</span></dt>
+                        <dd id="parentCategoryMenu">
+                            <div class='li' >
+                                <a href="column.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>工学</span></a>
                             </div>
                         </dd>
                     </dl>
                     <dl>
-                        <dt><i class="fa fa-fw fa-image"></i> <span>图片管理</span></dt>
+                        <dt><a href="/admin/course/list" target="rightiframe"><i class="fa fa-fw fa-tags"></i> <span>课程管理</span></a></dt>
+<!--                        <dd id="parentCategoryMenu2">-->
+<!--                            <div class='li'>-->
+<!--                                <a href="keywords.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>关键词列表</span></a>-->
+<!--                            </div>-->
+<!--                        </dd>-->
+                    </dl>
+                    <dl>
+                        <dt><i class="fa fa-fw fa-image"></i> <span>文章管理</span></dt>
                         <dd>
                             <div class='li'>
-                                <a href="picture.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>图片列表</span></a>
+                                <a href="/admin/article/addArticle" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>上传文章</span></a>
                             </div>
                             <div class='li'>
-                                <a href="picture_create.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>创建图片</span></a>
+                                <a href="/admin/article/list" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>文章列表</span></a>
                             </div>
                         </dd>
                     </dl>
                     <dl>
-                        <dt><i class="fa fa-fw fa-file-text-o"></i> <span>单页管理</span></dt>
-                        <dd>
-                            <div class='li'>
-                                <a href="page.html"  target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>单页列表</span></a>
-                            </div>
-                            <div class='li'>
-                                <a href="page_create.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>创建单页</span></a>
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt><i class="fa fa-fw fa-cog"></i> <span>网站设置</span></dt>
-                        <dd>
-                            <div class='li'>
-                                <a href="webset.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>基本设置</span></a>
-                            </div>
-
-                            <div class='li'>
-                                <a href="company.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>公司信息</span></a>
-                            </div>
-
-                            <div class='li'>
-                                <a href="field.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>字段管理</span></a>
-                            </div>
-
-                            <div class='li'>
-                                <a href="watermark.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>水印设置</span></a>
-                            </div>
-
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt><i class="fa fa-fw fa-user"></i> <span>管理列表</span></dt>
-                        <dd>
-                            <div class='li'>
-                                <a href="administrators.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>管理员列表</span></a>
-                            </div>
-                            <div class='li'>
-                                <a href="javascript:;"><i class="fa fa-fw fa-angle-right"></i><span>管理员权限</span></a>
-                            </div>
-
-                        </dd>
-                    </dl>
-
-                    <dl>
-                        <dt><i class="fa fa-fw fa-users"></i> <span>会员管理</span></dt>
-                        <dd>
-                            <div class='li'>
-                                <a href="user.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>会员列表</span></a>
-                            </div>
-                        </dd>
-                    </dl>
-
-                    <dl>
-                        <dt><i class="fa fa-fw fa-link"></i> <span>友情链接</span></dt>
-                        <dd>
-                            <div class='li'>
-                                <a href="friendlinks.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>友链列表</span></a>
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt><i class="fa fa-fw fa-stack-overflow"></i> <span>网站日志</span></dt>
-                        <dd>
-                            <div class='li'>
-                                <a href="logs.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>日志列表</span></a>
-                            </div>
-                        </dd>
+                        <dt><a href="/admin/course/list" target="rightiframe"><i class="fa fa-fw fa-tags"></i> <span>评论管理</span></a></dt>
                     </dl>
 
 
-                    <dl>
-                        <dt><i class="fa fa-fw fa-send"></i> <span>留言管理</span></dt>
-                        <dd>
-                            <div class='li'>
-                                <a href="message.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>留言列表</span></a>
-                            </div>
-                        </dd>
-                    </dl>
+<!--                    <dl>-->
+<!--                        <dt><i class="fa fa-fw fa-send"></i> <span>留言管理</span></dt>-->
+<!--                        <dd >-->
+<!--                            <div class='li'>-->
+<!--                                <a href="message.html" target="rightiframe"><i class="fa fa-fw fa-angle-right"></i><span>留言列表</span></a>-->
+<!--                            </div>-->
+<!--                        </dd>-->
+<!--                    </dl>-->
                 </div>
             </div>
             <div class="right" >
-                <iframe src="/category/listParent" frameborder="0" id="rightiframe" name="rightiframe"></iframe>
+                <iframe src="/admin/user/listUser" frameborder="0" id="rightiframe" name="rightiframe"></iframe>
             </div>
         </section>
         <div class="rightmask"></div>

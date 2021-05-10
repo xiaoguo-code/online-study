@@ -1,0 +1,27 @@
+
+<!--<select id="multiple-type-section" class="select2 form-control"-->
+<!--        data-placeholder="请选择文章类型..">-->
+
+<!--&lt;!&ndash;    <th:block th:unless="${null == contents}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <option value="" selected="selected">归属课程章节</option>&ndash;&gt;-->
+<!--&lt;!&ndash;        <option value="" th:value="${section.courseAndSectionIds}" th:text="${section.courseAndSectionNames}" th:each="section:${articleSectionList}"&ndash;&gt;-->
+<!--&lt;!&ndash;                th:selected="${null != contents and contents.type=='post'} ? true : false">作品</option>&ndash;&gt;-->
+<!--&lt;!&ndash;    </th:block>&ndash;&gt;-->
+<!--</select>-->
+
+<!--<div class="form-group col-md-6" style="padding: 0 0 0 10px;">-->
+    <div class="select2-container select2 form-control" id="s2id_multiple-type" style="width: 100%;">
+        <a href="javascript:void(0)" class="select2-choice" tabindex="-1">
+            <span class="select2-chosen" id="select2-chosen-1">归属课程章节</span>
+            <abbr class="select2-search-choice-close"></abbr>   <span class="select2-arrow" role="presentation">
+            <b role="presentation"></b></span></a><label for="s2id_autogen1" class="select2-offscreen"></label>
+        <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-1" id="s2id_autogen1">
+    </div>
+    <select id="multiple-type" class="select2 form-control select2-offscreen" data-placeholder="请选择归属章节.." tabindex="-1" title="">
+
+        <th:block >
+            <option value="" selected="selected">归属课程章节</option>
+            <option value="" th:value="${section.courseAndSectionIds}" th:text="${section.courseAndSectionNames}" th:each="section:${articleSectionList}" >作品</option>
+        </th:block>
+    </select>
+

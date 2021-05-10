@@ -109,7 +109,7 @@ $(document).on("click","#editSubmitBtn02",function () {
     $.ajax({
         async: true,
         type: 'POST',  //提交方法是GET
-        url: '/category/update', //请求的路径
+        url: '/admin/category/update', //请求的路径
         data: {
             // async:true,
             // pageIndex: pageIndex,
@@ -185,7 +185,7 @@ $(document).on("click","#editSubmitBtn",function (){
     $.ajax({
         async: true,
         type: 'POST',  //提交方法是GET
-        url: '/category/update', //请求的路径
+        url: '/admin/category/update', //请求的路径
         data: {
             // async:true,
             // pageIndex: pageIndex,
@@ -208,7 +208,7 @@ $(document).on("click","#editSubmitBtn",function (){
                 if(!(cateId.length===0)){
                     layer.msg('更新成功', { icon: 1 });
                 }else{
-                    layer.msg('删除成功', { icon: 1 });
+                    layer.msg('添加成功', { icon: 1 });
                 }
                 getCategoryList(0,_pageSize);
                 getCategory01();//更新下拉框类别信息
@@ -238,7 +238,7 @@ $(document).on("click", "#multiDelete", function () {
         $.ajax({
             async: true,
             type: 'POST',  //提交方法是GET
-            url: '/category/delete', //请求的路径
+            url: '/admin/category/delete', //请求的路径
             data: {
                 // async:true,
                 // pageIndex: pageIndex,
@@ -281,7 +281,7 @@ $(document).on("click", "#deleteCategory", function () {
         $.ajax({
             async: true,
             type: 'POST',  //提交方法是GET
-            url: '/category/delete', //请求的路径
+            url: '/admin/category/delete', //请求的路径
             data: {
                 // async:true,
                 // pageIndex: pageIndex,
@@ -325,7 +325,7 @@ function getCategoryList(pageIndex, pageSize) {
     $.ajax({
         async: true,
         type: 'GET',  //提交方法是GET
-        url: '/category/listParent', //请求的路径
+        url: '/admin/category/listParent', //请求的路径
         data: {
             async:true,
             // pageIndex: pageIndex,
@@ -359,7 +359,7 @@ function getCategory01(){
     $.ajax({
         async: true,
         type: 'GET',  //提交方法是GET
-        url: '/category/getParentCategory', //请求的路径
+        url: '/admin/category/getParentCategory', //请求的路径
         data: {
             parentId:$("#parentId_select").val(),
             type:1,
@@ -393,7 +393,7 @@ function getCategory02(){
     $.ajax({
         async: true,
         type: 'GET',  //提交方法是GET
-        url: '/category/getchildCategory', //请求的路径
+        url: '/admin/category/getchildCategory', //请求的路径
         data: {
             parentId:parentId,
             type:1,
@@ -421,7 +421,7 @@ function getCategory011(parentId){
     $.ajax({
         async: true,
         type: 'GET',  //提交方法是GET
-        url: '/category/getParentCategory', //请求的路径
+        url: '/admin/category/getParentCategory', //请求的路径
         data: {
             parentId:parentId,
             type:2,
@@ -450,7 +450,7 @@ function getCategory022(parentId){
     $.ajax({
         async: true,
         type: 'GET',  //提交方法是GET
-        url: '/category/getchildCategory', //请求的路径
+        url: '/admin/category/getchildCategory', //请求的路径
         data: {
             parentId:parentId,
             type:2,

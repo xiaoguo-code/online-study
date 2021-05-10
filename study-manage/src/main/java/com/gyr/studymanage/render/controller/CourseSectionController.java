@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @RestController
 @Slf4j
-@RequestMapping("/courseSection")
+@RequestMapping("/admin/courseSection")
 public class CourseSectionController {
 
     @Autowired

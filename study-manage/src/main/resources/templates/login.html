@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- /* // ****后台页面定制，设计QQ：951252660 */ -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习平台后台管理</title>
+    <script th:src="@{~/static/component/js/JQuery2.1.4.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/component/style/components.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/themes.css}">
+    <script th:src="@{~/static/component/plugins/layer/layer.js}"></script>
+
+    <script type="text/javascript">
+        function toLogin() {
+            let adminName = $("#adminName").val();
+            let adminPassword = $("#adminPassword").val();
+            $.ajax({
+                async: true,
+                type: 'POST',  //提交方法是GET
+                url: '/admin/login', //请求的路径
+                data: {
+                    adminName:adminName,
+                    adminPassword:adminPassword
+                },
+                headers: {
+                    contentType: "application/json",
+                },
+                timeout: 10000,
+                error: function () {
+                    layer.msg("添加失败", { icon: 1 });
+                },
+                success: function (data) {
+                    if(data.code===200){
+                        layer.msg('登录成功', { icon: 1 });
+                        //跳转到课程列表页面
+                        window.location.href="/admin/index";
+                    }else{
+                        layer.msg(data.msg, { icon: 1 });
+                    }
+                },
+                complete: function () {
+
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div id="login">
+<!--        <form action="index.html">-->
+        <div class="center">
+            <dl>
+                <dt><i class="gi gi-leaf"></i>登录 <span> </span></dt>
+                <dd><span><i class="fa fa-fw fa-user"></i></span><input type="text" id="adminName" placeholder="请输入账号"></dd>
+                <dd><span><i class="fa fa-fw fa-lock"></i></span><input type="password" id="adminPassword" placeholder="请输入密码"></dd>
+                <dd><button onclick="toLogin()">登录</button></dd>
+            </dl>
+        </div>
+<!--    </form>-->
+    </div>
+</body>
+
+</html>

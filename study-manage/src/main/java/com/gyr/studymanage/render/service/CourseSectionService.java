@@ -19,6 +19,14 @@ public interface CourseSectionService {
      */
     List<CourseSectionInfo> getCourseSectionListByType(String courseId);
 
+
+    /**
+     * 根据课程id查询课程章节信息列表
+     * @param courseSectionInfo
+     * @return
+     */
+    CourseSectionInfo getCourseSectionListByCondition(CourseSectionInfo courseSectionInfo);
+
     /**
      * 根据课程章节id获取课程章节信息
      * @param courseSectionId
@@ -46,4 +54,11 @@ public interface CourseSectionService {
      * @return
      */
     boolean remove(String courseSectionIds);
+
+    /**
+     * 根据课程id删除章节
+     * @param courseId
+     * @return
+     */
+    boolean removeByCourseId(Integer courseId);
 }

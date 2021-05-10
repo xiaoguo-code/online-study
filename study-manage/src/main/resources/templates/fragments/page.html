@@ -17,13 +17,13 @@
 		</li>
  		<!-- 页面大小 -->
 		<select class="custom-select tbpage-size" data-th-attr="pageIndex=${page.currPage}">
-			<option data-th-each="i : ${#arrays.toIntegerArray({5,10,40,100})}" data-th-value="${i}"
+			<option data-th-each="i : ${#arrays.toIntegerArray({5,10,20,40})}" data-th-value="${i}"
 				 data-th-selected="${i eq page.pageSize}" data-th-text="${i}"></option>
 		</select>
 
 		<!-- 上一页 -->
 		<li class="page-item" data-th-classappend="*{first} ? 'disabled' : ''">
-			<a href="javascript:void(0);" class="page-link tbpage-item" data-th-attr="pageIndex=${page.currPage} - 1" aria-label="Previous">
+			<a href="javascript:void(0);" class="page-link tbpage-item" data-th-attr="*{first} ? 1 : pageIndex=${page.currPage} - 1" aria-label="Previous">
 				<span aria-hidden="true">«</span>
 			</a>
 		</li>
@@ -38,7 +38,7 @@
 
 		<!-- 下一页 -->
 		<li class="page-item" data-th-classappend="*{last} ? 'disabled' : ''">
-			<a href="javascript:void(0);" class="page-link tbpage-item" data-th-attr="pageIndex=${page.currPage} + 1" aria-label="Next">
+			<a href="javascript:void(0);" class="page-link tbpage-item" data-th-attr="*{last} ? ${page.totalPage} :pageIndex=${page.currPage} + 1" aria-label="Next">
 				<span aria-hidden="true">»</span>
 			</a>
 		</li>

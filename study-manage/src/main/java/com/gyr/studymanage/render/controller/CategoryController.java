@@ -29,7 +29,7 @@ import java.util.Map;
  * @author guoyr
  */
 @Controller
-@RequestMapping("/category")
+@RequestMapping("/admin/category")
 @Slf4j
 public class CategoryController {
 
@@ -85,21 +85,36 @@ public class CategoryController {
 //    }
 
     /**
-     * 获取父级类别信息列表
+     * 获取工科...类别信息列表
      */
-//    @RequestMapping("/listParent")
-////    @RequiresPermissions("generator:category:list")
-//    public ModelAndView list(Model model) {
-//        log.info("1、获取父级类别信息列表!");
-//        List<CategoryInfo> parentCategoryList = null;
-//        try {
-//            //parentCategoryList = categoryService.getParentCategory();
-//        } catch (Exception e) {
-//            log.error("获取父级类别信息列表异常：", e);
-//        }
-//        model.addAttribute("parentCategoryList",parentCategoryList);
-//        return new ModelAndView("category/category01","categoryModel01",model);
-//    }
+    @RequestMapping("/listCategoryMenu")
+    public ModelAndView list(Model model) {
+        log.info("1、获取类别菜单列表!");
+        List<CategoryInfo> parentCategory = null;
+        try {
+            parentCategory = categoryService.getParentCategory(0);
+        } catch (Exception e) {
+            log.error("获取类别菜单列表异常：", e);
+        }
+        model.addAttribute("parentCategoryMenu",parentCategory);
+        return new ModelAndView("main/categoryMenu","categoryMenuModel",model);
+    }
+
+    /**
+     * 获取工科...类别信息列表
+     */
+    @RequestMapping("/listCategoryMenu2")
+    public ModelAndView list2(Model model) {
+        log.info("1、获取类别菜单列表2!");
+        List<CategoryInfo> parentCategory = null;
+        try {
+            parentCategory = categoryService.getParentCategory(0);
+        } catch (Exception e) {
+            log.error("获取类别菜单列表2异常：", e);
+        }
+        model.addAttribute("parentCategoryMenu",parentCategory);
+        return new ModelAndView("main/categoryMenu2","categoryMenuModel",model);
+    }
 
     /**
      * 获取一级类别信息列表
@@ -129,8 +144,66 @@ public class CategoryController {
             return new ModelAndView( "category/category01::#parentId_select",
                     "categoryModel", model);
         }
+    }
 
+    /**
+     * 获取一级类别信息列表
+     * @param model
+     * @return
+     */
+    @GetMapping("/getOneCategory")
+    public ModelAndView getParentCategoryCourse(Integer type,Integer parentId,
+                                          Model model) {
+        log.info("1、获取一级类别信息列表!");
+        List<CategoryInfo> parentCategory = null;
+        try {
+            parentCategory = categoryService.getParentCategory(parentId);
+        } catch (Exception e) {
+            log.error("获取父级类别信息列表异常：", e);
+        }
+        log.info("parentCategory:{}", GsonUtils.toJSON(parentCategory));
+        model.addAttribute("parentCategory", parentCategory);
+        if(type==null){
+            return new ModelAndView( "course/courseList::#parentId_select",
+                    "categoryModel", model);
+        }else if(type==0){
+            return new ModelAndView( "course/add_course::#example-select",
+                    "categoryModel", model);
+        }else if(type==1){
+            return new ModelAndView( "course/add_course::#example-select2",
+                    "categoryModel", model);
+        }else if(type==2){
+            return new ModelAndView( "course/add_course::#example-select3",
+                    "categoryModel", model);
+        }
+        return new ModelAndView( "course/courseList::#parentId_select",
+                "categoryModel", model);
+    }
 
+    @GetMapping("/getEditCategory")
+    public ModelAndView getEditCategory(Integer type,Integer parentId,
+                                                Model model) {
+        log.info("1、获取编辑类别信息列表!");
+        List<CategoryInfo> parentCategory = null;
+        try {
+            parentCategory = categoryService.getParentCategory(parentId);
+        } catch (Exception e) {
+            log.error("获取父级类别信息列表异常：", e);
+        }
+        log.info("parentCategory:{}", GsonUtils.toJSON(parentCategory));
+        if(type==0){
+            model.addAttribute("oneList", parentCategory);
+            return new ModelAndView( "course/edit_course::#example-select",
+                    "categoryModel", model);
+        }else if(type==1){
+            model.addAttribute("twoList", parentCategory);
+            return new ModelAndView( "course/edit_course::#example-select2",
+                    "categoryModel", model);
+        }else {
+            model.addAttribute("threeList", parentCategory);
+            return new ModelAndView( "course/edit_course::#example-select3",
+                    "categoryModel", model);
+        }
 
     }
 
@@ -228,6 +301,8 @@ public class CategoryController {
         }
         return R.ok().put("childCategoryList", childCategoryList);
     }
+
+
 
     /**
      * 根据id获取类别信息

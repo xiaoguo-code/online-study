@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @desc: 课程信息service
@@ -38,6 +40,28 @@ public class CourseSectionServiceImpl implements CourseSectionService {
         }
         List<CourseSectionInfo> result = courseSectionMapper.selectList(wrapper);
         return result;
+    }
+
+    /**
+     * 根据课程id查询课程章节信息列表
+     *
+     * @param courseSectionInfo
+     * @return
+     */
+    @Override
+    public CourseSectionInfo getCourseSectionListByCondition(CourseSectionInfo courseSectionInfo) {
+        QueryWrapper wrapper = new QueryWrapper();
+        if (StringUtils.isNotBlank(courseSectionInfo.getSectionName())){
+            wrapper.eq("sectionName",courseSectionInfo.getSectionName());
+        }
+        if(courseSectionInfo.getCourseId()==null){
+            wrapper.eq("courseId",courseSectionInfo.getCourseId());
+        }
+        if (courseSectionInfo.getPriority()==null){
+            wrapper.eq("priority",courseSectionInfo.getPriority());
+        }
+        return courseSectionMapper.selectOne(wrapper);
+
     }
 
     /**
@@ -90,5 +114,21 @@ public class CourseSectionServiceImpl implements CourseSectionService {
             return i>0;
         }
         return false;
+    }
+
+    /**
+     * 根据课程id删除章节
+     *
+     * @param courseId
+     * @return
+     */
+    @Override
+    public boolean removeByCourseId(Integer courseId) {
+        Map<String,Object> condition = new HashMap<>();
+        if(courseId!=null){
+            condition.put("courseId",courseId);
+        }
+        int i = courseSectionMapper.deleteByMap(condition);
+        return i>0;
     }
 }

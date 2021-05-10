@@ -1,6 +1,7 @@
 package com.gyr.studycommon.vo;
 
 import com.gyr.studycommon.entity.UsersInfo;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 /**
@@ -10,4 +11,8 @@ import lombok.Data;
  */
 @Data
 public class UsersVO extends UsersInfo {
+
+    private Integer pageIndex;
+
+    private Integer pageSize;
 }

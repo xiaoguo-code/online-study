@@ -26,6 +26,11 @@ public class Admin implements Serializable {
     private String adminName;
 
     /**
+     * 管理员真实姓名
+     */
+    private String adminRealName;
+
+    /**
      * 管理员密码
      */
     private String adminPassword;

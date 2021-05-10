@@ -20,6 +20,8 @@ public interface CourseService {
      */
     PageUtils getCoursesListByCondition(CourseVO conditions);
 
+
+
     /**
      * 根据课程类别查询课程信息列表
      * @param courseType   如："1,2,3"
@@ -33,6 +35,21 @@ public interface CourseService {
      * @return
      */
     CourseInfo getCoursesInfoById(Integer courseId);
+
+    /**
+     * 根据条件获取课程信息
+     * @param categoryIds
+     * @param courseName
+     * @return
+     */
+    CourseInfo getCoursesInfoByCondition(String categoryIds,String courseName);
+
+    /**
+     * 根据条件获取课程信息
+     * @param courseInfo
+     * @return
+     */
+    CourseInfo getCoursesInfoByCondition(CourseInfo courseInfo);
 
     /**
      * 新增课程信息

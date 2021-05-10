@@ -19,8 +19,8 @@ public class CourseSection implements Serializable {
     /**
      * 标识
      */
-    @TableId(value = "courseSectionId",type = IdType.AUTO)
-    private Integer courseSectionId;
+    @TableId(value = "sectionId",type = IdType.AUTO)
+    private Integer sectionId;
     /**
      * 归属课程id
      */

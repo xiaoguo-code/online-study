@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习平台后台管理</title>
+    <script th:src="@{~/static/component/js/JQuery2.1.4.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/component/style/components.css}">
+    <script th:src="@{~/static/component/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/themes.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/component-tageditor.css}">
+    <script th:src="@{~/static/component/plugins/laydate/laydate.js}"></script>
+    <script th:src="@{~/static/component/plugins/layer/layer.js}"></script>
+    <!--    <script th:src="@{~/static/category/category01.js}"></script>-->
+    <script th:src="@{~/static/js/thymeleaf-bootstrap-paginator.js}"></script>
+<!--    <script th:src="@{~/static/js/jquery.tag-editor.js}"></script>-->
+<!--    <script th:src="@{~/static/tag/tag-init.js}"></script>-->
+    <script th:src="@{~/static/user-admin/admins.js}"></script>
+</head>
+
+<body>
+    <div id="body">
+        <ol class="breadcrumb">
+            <li class="active"><a href="/admin/listAdmin">管理员管理</a></li>
+            <li>编辑管理员</li>
+        </ol>
+
+
+        <div class="tabli">
+            <span class="active">管理员信息</span>
+<!--            <span>章节设置</span>-->
+<!--            <span id="sectionCourseTagClick">章节标签设置</span>-->
+        </div>
+
+        <div class="tabbody">
+            <div class="bodyli active">
+                <!-- ///// -->
+
+                <input type="hidden" id="adminId"  th:value="${adminInfo.adminId}">
+                <div class="inputbox">
+                    <span class="title">用户名</span>
+                    <div class="inputright">
+                        <input type="text" name="adminName" th:value="${adminInfo.adminName}" id="adminName" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <span class="title">姓名</span>
+                    <div class="inputright">
+                        <input type="text" name="adminRealName" th:value="${adminInfo.adminRealName}" id="adminRealName" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <span class="title">密码</span>
+                    <div class="inputright">
+                        <input type="password" name="adminPassword" th:value="${adminInfo.adminPassword}" id="adminPassword" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <span class="title">确认密码</span>
+                    <div class="inputright">
+                        <input type="password" name="adminRePassword" th:value="${adminInfo.adminPassword}" id="adminRePassword" class="form-control input-sm">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="tbfooter">
+            <button class="btn btn-success" onclick="editAdmin()()"><i class="fa fa-floppy-o"></i> 添加</button>
+        </div>
+    </div>
+
+    <script src="./component/plugins/tinymce/tinymce.min.js"></script>
+    <script>
+        // 1、选项卡
+        $('.tabli span').click(function () {
+            $('.tabli span').removeClass('active');
+            $(this).addClass('active').siblings('span').removeClass('active');
+            var id = $(this).index();
+            $('.bodyli').removeClass('active');
+            $('.bodyli').eq(id).addClass('active');
+        })
+
+        // 2、创建日期
+        laydate.render({
+            elem: '#date',
+            theme:"#5cb85c",
+            format: 'yyyy-MM-dd', //指定时间格式
+            value: new Date(), // 创建日期默认为当天
+        });
+
+        // 3、富文本编辑器 http://tinymce.ax-z.cn/
+        tinymce.init({
+            selector: '#content',
+            language:'zh_CN',
+            menubar: false, //隐藏上面的一个工具栏标题栏
+            branding: false,
+            plugins: 'image code batchUploadImage imagetools link hr table media preview ',
+            toolbar:"undo  redo | removeformat  lineheight  | alignleft  aligncenter alignright alignjustify |  fontselect fontsizeselect | table  media  forecolor backcolor bold italic underline  strikethrough formats | bullist  numlist outdent  indent blockquote | image batchUploadImage imagetools  | code link hr | preview ",
+            height: 550,
+            fontsize_formats: '12px 13px 14px 15px 16px 17px 18px 19px 20px 21px 22px 23px 24px 36px 48px',
+            images_upload_url: '/demo/upimg.php', // 图片上传URL
+            images_upload_base_path: '/demo',     // 存储路径
+            content_style: "img {max-width:100%;}"
+        });
+    </script>
+</body>
+
+</html>

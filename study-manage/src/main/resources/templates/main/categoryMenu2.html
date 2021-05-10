@@ -1,0 +1,9 @@
+
+
+
+
+
+<div class='li' th:each="category:${parentCategoryMenu}">
+    <a th:href="@{/admin/studyLine/listStudyLine?parentId={id}(id=${category.categoryId})}" th:target="rightiframe">
+        <i class="fa fa-fw fa-angle-right"></i><span th:text="${category.title}">没有数据</span></a>
+</div>

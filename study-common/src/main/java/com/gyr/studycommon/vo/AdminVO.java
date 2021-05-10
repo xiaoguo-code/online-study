@@ -1,6 +1,7 @@
 package com.gyr.studycommon.vo;
 
 import com.gyr.studycommon.entity.AdminInfo;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,5 +14,7 @@ import java.io.Serializable;
 @Data
 public class AdminVO extends AdminInfo {
 
+    private Integer pageIndex;
 
+    private Integer pageSize;
 }

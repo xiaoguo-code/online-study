@@ -23,7 +23,7 @@ import java.util.Map;
  * @author guoyr
  */
 @RestController
-@RequestMapping("/comment")
+@RequestMapping("/admin/comment")
 @Slf4j
 public class CommentController {
 

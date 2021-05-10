@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习平台后台管理</title>
+    <script th:src="@{~/static/component/js/JQuery2.1.4.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/component/style/components.css}">
+    <script th:src="@{~/static/component/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/plugins.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/themes.css}">
+    <link rel="stylesheet" th:href="@{~/static/css/component-tageditor.css}">
+    <script th:src="@{~/static/component/plugins/laydate/laydate.js}"></script>
+    <script th:src="@{~/static/component/plugins/layer/layer.js}"></script>
+    <!--    <script th:src="@{~/static/category/category01.js}"></script>-->
+    <script th:src="@{~/static/js/thymeleaf-bootstrap-paginator.js}"></script>
+    <script th:src="@{~/static/js/jquery.tag-editor.js}"></script>
+<!--    <script th:src="@{~/static/tag/tag-init.js}"></script>-->
+    <script th:src="@{~/static/course/edit_course.js}"></script>
+</head>
+
+<body>
+    <div id="body">
+        <ol class="breadcrumb">
+            <li class="active"><a href="/admin/course/list">课程管理</a></li>
+            <li>编辑课程</li>
+        </ol>
+
+
+        <div class="tabli">
+            <span class="active">课程信息</span>
+            <span>章节设置</span>
+            <span id="sectionCourseTagClick">章节标签设置</span>
+        </div>
+
+        <div class="tabbody">
+            <div class="bodyli active">
+                <!-- ///// -->
+                <div class="inputbox">
+                    <span class="title"><em class="s-red">*</em> 所属方向</span>
+                    <div class="inputright" id="parentChildSelect">
+                        <select id="example-select" name="" class="form-control input-sm">
+                            <option value="">一级分类</option>
+                            <option th:each="parent : ${oneList}" th:value="${parent.categoryId}"
+                                    th:text="${parent.title}"
+                                    th:selected="${parent.categoryId}==${one}"
+                                     value="">css</option>
+<!--                            <option th:each="parent : ${parentCategory}" th:value="${parent.categoryId}"-->
+<!--                                    th:text="${parent.title}"-->
+<!--                                    th:selected="${parent.categoryId}==${parentId}" value="">css</option>-->
+                        </select>
+                    </div>
+                </div>
+                <!-- ///// -->
+                <!-- ///// -->
+                <div class="inputbox">
+                    <span class="title"><em class="s-red">*</em> 归属科目</span>
+                    <div class="inputright" id="parentChildSelect2">
+                        <select id="example-select2" name="" class="form-control input-sm">
+                            <option  value="">二级分类</option>
+                            <option th:each="parent : ${twoList}" th:value="${parent.categoryId}"
+                                    th:text="${parent.title}"
+                                    th:selected="${parent.categoryId}==${two}"
+                                    value="">css</option>
+
+                        </select>
+                    </div>
+                </div>
+                <!-- ///// -->
+                <!-- ///// -->
+                <div class="inputbox">
+                    <span class="title"><em class="s-red">*</em> 所属阶段</span>
+                    <div class="inputright" id="parentChildSelect3">
+                        <select id="example-select3" name="" class="form-control input-sm">
+                            <option value="">三级分类</option>
+                            <option th:each="parent : ${threeList}" th:value="${parent.categoryId}"
+                                    th:text="${parent.title}"
+                                    th:selected="${parent.categoryId}==${three}"
+                                    value="">css</option>
+
+                        </select>
+                    </div>
+                </div>
+                <!-- ///// -->
+                <input type="hidden" id="courseId"  th:value="${courseInfo.courseId}" class="form-control input-sm">
+                <div class="inputbox">
+                    <span class="title">课程名</span>
+                    <div class="inputright">
+                        <input type="text" name="courseName" th:value="${courseInfo.courseName}" id="courseName" class="form-control input-sm">
+                    </div>
+                </div>
+                <!-- ///// -->
+                <div class="inputbox">
+                    <span class="title">优先级</span>
+                    <div class="inputright">
+                        <input type="text" name="priority" id="priority" th:value="${courseInfo.priority}" class="form-control input-sm">
+                    </div>
+                </div>
+
+            </div>
+            <div class="bodyli" id="course_section_module">
+                <div class="tbfooter">
+                    <button class="btn btn-success" id="addCourseSectionBtn"><i class="fa fa-floppy-o"></i> 添加章节</button>
+                    <button class="btn btn-danger" id="deleteSection" ><i class="fa fa-floppy-o"></i> 删除章节</button>
+                </div>
+<!--                <button class="btn btn-danger pull-left ml10" data-toggle="tooltip" title="" id="deleteSection" data-placement="right"-->
+<!--                        data-original-title="删除"><i class="fa fa-trash-o"></i></button>-->
+                <!-- ///// -->
+                <div class="inputbox"  id="courseSection-1" th:each="sectionInfo,obj:${sectionInfos}">
+                    <span class="title" >第[[${obj.count}]]章</span>
+                    <input type="hidden" name="courseSectionValue"  th:value="${obj.count}" class="form-control input-sm">
+                    <input type="hidden" name="sectionId"  th:value="${sectionInfo.sectionId}" class="form-control input-sm">
+                    <div class="inputright">
+                        <input type="text" name="courseSection"  th:value="${sectionInfo.sectionName}" class="form-control input-sm">
+                    </div>
+                </div>
+
+                <!-- ///// -->
+            </div>
+            <div id="tagInfoList">
+                <input type="hidden" name="tagInfoList" th:attr="sectionTagId=${tagInfo.sectionTagId},tagName=${tagInfo.tagName}"
+                       th:each="tagInfo,obj:${tagInfos}">
+            </div>
+            <div class="bodyli bd0" id="course_section_tag_module">
+                <!-- ///// -->
+                <div class="inputbox" th:each="tagInfo,obj:${tagInfos}">
+                    <span class="title">第[[${obj.count}]]章标签</span>
+                    <input type="hidden" name="sectionTagId"  th:value="${tagInfo.sectionTagId}" class="form-control input-sm">
+                    <div class="inputright">
+                        <input type="text" name="courseSectionTag"  class="form-control  form-control-tag"
+                               th:value="${tagInfo.tagName}==null? '' : ${tagInfo.tagName}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tbfooter">
+            <button class="btn btn-success" onclick="updateCourse()"><i class="fa fa-floppy-o"></i> 保存修改</button>
+        </div>
+    </div>
+
+    <script src="./component/plugins/tinymce/tinymce.min.js"></script>
+    <script>
+        // 1、选项卡
+        $('.tabli span').click(function () {
+            $('.tabli span').removeClass('active');
+            $(this).addClass('active').siblings('span').removeClass('active');
+            var id = $(this).index();
+            $('.bodyli').removeClass('active');
+            $('.bodyli').eq(id).addClass('active');
+        })
+
+        // 2、创建日期
+        laydate.render({
+            elem: '#date',
+            theme:"#5cb85c",
+            format: 'yyyy-MM-dd', //指定时间格式
+            value: new Date(), // 创建日期默认为当天
+        });
+
+        // 3、富文本编辑器 http://tinymce.ax-z.cn/
+        tinymce.init({
+            selector: '#content',
+            language:'zh_CN',
+            menubar: false, //隐藏上面的一个工具栏标题栏
+            branding: false,
+            plugins: 'image code batchUploadImage imagetools link hr table media preview ',
+            toolbar:"undo  redo | removeformat  lineheight  | alignleft  aligncenter alignright alignjustify |  fontselect fontsizeselect | table  media  forecolor backcolor bold italic underline  strikethrough formats | bullist  numlist outdent  indent blockquote | image batchUploadImage imagetools  | code link hr | preview ",
+            height: 550,
+            fontsize_formats: '12px 13px 14px 15px 16px 17px 18px 19px 20px 21px 22px 23px 24px 36px 48px',
+            images_upload_url: '/demo/upimg.php', // 图片上传URL
+            images_upload_base_path: '/demo',     // 存储路径
+            content_style: "img {max-width:100%;}"
+        });
+    </script>
+</body>
+
+</html>

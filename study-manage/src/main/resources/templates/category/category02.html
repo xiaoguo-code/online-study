@@ -101,7 +101,7 @@
                         <td class="text-center"><input type="checkbox" id="check5-td1" th:value="${category.categoryId}" name="check5-td1">
                         </td>
                         <td class="cell-small text-center" th:text="${(page.currPage-1)*page.pageSize+obj.count}">1</td>
-                        <td><a th:href="@{/category/listChild3(parentId=${category.categoryId})}" id="listChildCategory02"  th:text="${category.title}">交通设施生产厂家哪家好？交通标志厂家怎么选？</a></td>
+                        <td><a th:href="@{/admin/category/listChild3(parentId=${category.categoryId})}" id="listChildCategory02"  th:text="${category.title}">交通设施生产厂家哪家好？交通标志厂家怎么选？</a></td>
                         <td><span class="label label-success" th:text="${category.createTime}">2021-03-21 23:07:31</span></td>
                         <td><span class="label label-success" th:text="${category.updateTime}==null? -- : ${category.updateTime}">2021-03-21 23:07:31</span></td>
                         <td class="text-center" width="100" >

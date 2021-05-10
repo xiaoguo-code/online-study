@@ -4,6 +4,7 @@ package com.gyr.studymanage.render.service;
 import com.gyr.studycommon.entity.CategoryInfo;
 import com.gyr.studycommon.util.PageUtils;
 import com.gyr.studycommon.vo.CategoryConditionVO;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -38,6 +39,8 @@ public interface CategoryService {
      */
     List<CategoryInfo> getParentCategory(Integer parentId);
 
+    List<CategoryInfo> getCategoryByCondition(CategoryConditionVO conditionVO);
+
     /**
      * 获取上一层级类别信息
      * @return
@@ -57,6 +60,13 @@ public interface CategoryService {
      * @return
      */
     CategoryInfo getCategoryInfoById(Integer categoryId);
+
+    /**
+     * 返回id字符串   “1,2,3"
+     * @param categoryId
+     * @return
+     */
+    String getParentChildIdToStr(String categoryId);
 
     /**
      * 新增类别信息
