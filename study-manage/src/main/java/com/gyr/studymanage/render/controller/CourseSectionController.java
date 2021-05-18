@@ -101,7 +101,7 @@ public class CourseSectionController {
      * 删除
      */
     @PostMapping("/delete")
-    public R delete(@RequestBody String courseSectionIds) {
+    public R delete( String courseSectionIds) {
         log.info("课程章节删除courseSectionIds：{}" + courseSectionIds);
         try {
             Map<String, String> stringObjectMap = GsonUtils.toMaps(courseSectionIds);

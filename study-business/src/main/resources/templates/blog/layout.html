@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head th:fragment="headerFragment(title,active)">
+    <meta charset="utf-8"/>
+    <title><th:block th:text="${title != null ? title : ''} + ' 章节学习'"></th:block></title>
+    <meta name="baidu-site-verification" content="f3pd3lmpkj"/>
+    <meta property="wb:webmaster" content="b0059bf0e1f39b05"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link href="https://cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Rosario:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.bootcss.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet">
+    <link th:href="@{~/static/blog/css/main.css}" rel="stylesheet" type="text/css"/>
+    <meta name="keywords" content="Akane"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{~/static/blog/image/favicon.ico}"/>
+    <meta name="description" content="Think different"/>
+    <script type="text/javascript">
+        var CLUAS = window.CLUAS || {};
+        var CONFIG = {
+            root: '/',
+            scheme: 'Pisces',
+            sidebar: {
+                "position": "left",
+                "display": "post",
+                "offset": 12,
+                "offset_float": 0,
+                "b2t": false,
+                "scrollpercent": true
+            },
+            sidebar2: {
+                "position": "left",
+                "display": "post",
+                "offset": 12,
+                "offset_float": 0,
+                "b2t": false,
+                "scrollpercent": true
+            },
+            fancybox: true,
+            motion: true,
+            algolia: {
+                applicationID: '{{ algolia.appID }}',
+                apiKey: '{{algolia.searchKey}}',
+                indexName: '{{algolia.indexName }}',
+                hits: {"per_page": 7},
+                labels: {
+                    "input_placeholder": "搜索",
+                    "hits_empty": "未发现与 「${query}」相关的内容",
+                    "hits_stats": "${hits} 条相关条目，使用了 ${time} 毫秒"
+                }
+            }
+        };
+    </script>
+</head>
+<body>
+<div class="affx" style="position: fixed;padding-top: 0px;width: 270px;margin-left: 1155px;margin-top: 20px;
+                 ">
+    <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview" style="max-height: 585px;">
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline" style="margin-top: 2px">
+                <div class="links-of-blogroll-title">
+                    <i class="fa  fa-fw fa-link"></i>
+                    标签列表
+                </div>
+
+                    <ul th:each="tag : ${tagList}" class="links-of-blogroll-list">
+                        <li class="links-of-blogroll-item">
+                            <a href="#"  th:title="${tag}" >
+                                <th:block th:text="${tag}"></th:block>
+                            </a>
+                        </li>
+                    </ul>
+
+<!--                <ul  class="links-of-blogroll-list">-->
+<!--                    <li class="links-of-blogroll-item">-->
+<!--                        <a  title="哇哈哈" target="_blank">-->
+<!--                            哇哈哈-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+            </div>
+        </div>
+    </section>
+</div>
+    <div class="container sidebar-position-left page-home">
+        <div class="headband"></div>
+<!--        <div th:replace="blog/fragments/header::header"></div>-->
+        <div th:replace="blog/fragments/sidebar::sidebar"></div>
+<!--        <header id="header" class="header" style="margin-left: 20px;" th:fragment="header">-->
+<!--            <div class="header-inner">-->
+<!--                <div class="site-brand-wrapper">-->
+<!--                    <div class="site-meta">-->
+<!--                        <div class="custom-logo-site-title">-->
+<!--                            <a href="" class="brand" rel="start">-->
+<!--                                <span class="logo-line-before"><i></i></span>-->
+<!--                                <span class="site-title" th:text="${sectionInfo.sectionName}">Akane&nbsp;Blog</span>-->
+<!--                                <span class="logo-line-after"><i></i></span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <p class="site-subtitle" th:text="${courseInfo.courseName}">Think different</p>-->
+<!--                    </div>-->
+<!--                    <div class="site-nav-toggle">-->
+<!--                        <button>-->
+<!--                            <span class="btn-bar"></span>-->
+<!--                            <span class="btn-bar"></span>-->
+<!--                            <span class="btn-bar"></span>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <nav class="site-nav">-->
+<!--                    <ul id="menu" class="menu">-->
+<!--                        <li id="index" class="menu-item menu-item-home">-->
+<!--                            <a href="/" rel="section">-->
+<!--                                <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li id="archives" class="menu-item menu-item-archives">-->
+<!--                            <a href="/archives" rel="section">-->
+<!--                                <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li id="categories" class="menu-item menu-item-categories">-->
+<!--                            <a href="/categories" rel="section">-->
+<!--                                <i class="menu-item-icon fa fa-fw fa-th"></i> <br>-->
+<!--                                分类-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li id="tags" class="menu-item menu-item-tags">-->
+<!--                            <a href="/tags" rel="section">-->
+<!--                                <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li id="about" class="menu-item menu-item-about">-->
+<!--                            <a href="/about" rel="section">-->
+<!--                                <i class="menu-item-icon fa fa-fw fa-user"></i> <br>-->
+<!--                                关于-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        &lt;!&ndash;<li class="menu-item menu-item-search">&ndash;&gt;-->
+<!--                        &lt;!&ndash;<a href="javascript:" class="popup-trigger">&ndash;&gt;-->
+<!--                        &lt;!&ndash;<i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索&ndash;&gt;-->
+<!--                        &lt;!&ndash;</a>&ndash;&gt;-->
+<!--                        &lt;!&ndash;</li>&ndash;&gt;-->
+<!--                    </ul>-->
+<!--                    <div class="site-search">-->
+<!--                        <div class="algolia-popup popup search-popup">-->
+<!--                            <div class="algolia-search">-->
+<!--                                <div class="algolia-search-input-icon">-->
+<!--                                    <i class="fa fa-search"></i>-->
+<!--                                </div>-->
+<!--                                <div class="algolia-search-input" id="algolia-search-input">-->
+
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="algolia-results">-->
+<!--                                <div id="algolia-stats"></div>-->
+<!--                                <div id="algolia-hits"></div>-->
+<!--                                <div id="algolia-pagination" class="algolia-pagination"></div>-->
+<!--                            </div>-->
+<!--                            <span class="popup-btn-close"><i class="fa fa-times-circle"></i></span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </nav>-->
+<!--            </div>-->
+<!--        </header>-->
+<!--        <div th:replace="blog/fragments/sidebar::sidebar"></div>-->
+
+        <main id="main" class="main">
+            <div class="main-inner">
+
+                <!--主体content-->
+                <div class="content-wrap" style="float: none;margin-left: 175px;">
+                    <div id="content"  class="content">
+                        <section id="posts" class="posts-expand">
+                        <th:block th:each="blog : ${blogList}">
+                            <article class="post post-type-normal">
+                                <header class="post-header">
+                                    <h1 class="post-title">
+                                        <a class="post-title-link" href="#" th:text="${blog.title}"></a>
+                                        <a class="post-title-link" ></a>
+                                    </h1>
+                                    <div class="post-meta">
+                                <span class="post-time">
+                                    <span class="post-meta-item-icon">
+                                        <i class="fa fa-calendar-o"></i>
+                                    </span>
+                                    <span class="post-meta-item-text">发表于</span>
+                                    <time title="创建于" datetime="" th:text="${#dates.format(blog.createTime,'yyyy-MM-dd HH:mm:ss')}"></time>
+                                    <time title="创建于" datetime="" ></time>
+                                </span>
+                                        <span class="post-category">
+                                    <span class="post-meta-divider">|</span>
+                                    <span class="post-meta-item-icon">
+                                        <i class="fa fa-folder-o"></i>
+                                    </span>
+                                    <span class="post-meta-item-text">分类于</span>
+                                    <span>
+                                        <a href="#" rel="index">
+                                            <span th:text="${category}"></span>
+                                        </a>
+                                        <a  rel="index">
+                                            <span ></span>
+                                        </a>
+                                    </span>
+                                </span>
+                                        <span class="post-comments-count">
+                                    <span class="post-meta-divider">|</span>
+                                    <span class="post-meta-item-icon">
+                                      <i class="fa fa-comment-o"></i>
+                                    </span>
+                                    <a href="#comments">
+                                      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="" th:text="${blog.commentQuantity} +' Comments'"></span>
+                                    </a>
+                                </span>
+                                        <span id="" class="leancloud_visitors" data-flag-title="">
+                                    <span class="post-meta-divider">|</span>
+                                    <span class="post-meta-item-icon">
+                                        <i class="fa fa-eye"></i>
+                                    </span>
+                                    <span class="post-meta-item-text">阅读次数</span>
+                                                                                <span class="leancloud-visitors-count" th:text="${blog.browseQuantity}"></span>
+                                </span>
+                                    </div>
+                                </header>
+
+                                <div class="post-body">
+                                    <!--                            <th:block th:utext="${commons.article(commons.subStr(post.content,250))}"></th:block>-->
+                                    <th:block th:utext="${blog.content}"></th:block>
+                                </div>
+                                <!--noindex-->
+                                <div class="post-button text-center">
+                                    <!--                            <a class="btn" th:href="@{'/detail/'+${post.cid}}" rel="contents">-->
+                                    <a class="btn"  rel="contents">
+                                        阅读全文 »
+                                    </a>
+                                </div>
+                                <!--/noindex-->
+
+                                <footer class="post-footer">
+                                    <div class="post-eof"></div>
+                                </footer>
+                            </article>
+                            <!--                </th:block>-->
+                        </section>
+
+                        <!--分页-->
+                        <div class="lists-navigator clearfix">
+                            <!--                <div th:replace="comm/pagination::pageNav(${articles})"></div>-->
+                        </div>
+                    </div>
+                </div>
+
+                <!--侧边栏-->
+                <div class="sidebar-toggle">
+                    <div class="sidebar-toggle-line-wrap">
+                        <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+                        <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+                        <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+                    </div>
+                </div>
+
+
+            </div>
+        </main>
+<!--        <aside class="sidebar" style="margin-left: 20px;width: 365px" >-->
+
+<!--        </aside>-->
+        <!--底部footer-->
+<!--        <div th:replace="blog/fragments/footer::footer(${commons.site_record()})"></div>-->
+
+        <div class="back-to-top">
+            <i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+            window.Promise = null;
+        }
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/jquery.lazyload/1.9.3/jquery.lazyload.min.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/velocity/1.2.3/velocity.min.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/velocity/1.2.3/velocity.ui.min.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/fancybox/2.1.5/jquery.fancybox.pack.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/js/src/utils.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/js/src/motion.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/js/src/affix.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/js/schemes/pisces.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/js/src/scrollspy.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/js/src/post-details.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/js/src/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{~/static/blog/js/src/algolia-search.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/blog/lib/algolia-instant-search/instantsearch.min.css}">
+    <script type="text/javascript" th:src="@{~/static/blog/lib/algolia-instant-search/instantsearch.min.js}"></script>
+    <script>
+        var href = location.href;
+        var id = href.substring(href.lastIndexOf("/") + 1,href.length);
+        if (id == "") {
+            id = "index";
+        }
+        var ids = ["index","categories","archives","tags","about"];
+        for (var i = 0; i < ids.length; i++) {
+            if (id == ids[i]) {
+                $("#" + id).addClass("menu-item-active");
+            } else {
+                $("#" + ids[i]).removeClass("menu-item-active");
+            }
+        }
+
+        // 邮箱正则，用test不能加引号
+        var email_reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
+
+        function commentClick() {
+            var content = $("#comment-content").val();
+            var author = $("#nickname").val();
+            var email = $("#email").val();
+            var url = $("#url").val();
+            var cid = $("#cid").val();
+
+            if (null == content || "" == content || undefined == content) {
+                alert("内容不能为空");
+                return false;
+            }
+            if(content.length>200){
+                alert("评论过长");
+                return false;
+            }
+            if (null == author || "" == author || undefined == author) {
+                alert("姓名不能为空");
+                return false;
+            }
+            if(author.length>50){
+                alert("姓名过长");
+                return false;
+            }
+            if (null == email || "" == email || undefined == email) {
+                alert("邮箱不能为空");
+                return false;
+            }
+            if (email_reg.test(email)){
+            }else{
+                alert("邮箱格式错误，请输入正确的邮箱");
+                return false;
+            }
+
+            var data = {
+                "content": content,
+                "author":author,
+                "email": email,
+                "url": url,
+                "cid": cid
+            };
+
+            console.log(data);
+            $.ajax({
+                type: 'post',
+                url: '/comment',
+                data: data,
+                async: false,
+                dataType: 'json',
+                success: function (result) {
+                    // $('#comment-form input[name=coid]').val('');
+                    if (result && result.code == 'success') {
+                        alert("评论已提交至后台审核!");
+                        window.location.reload();
+                    } else {
+                        if (result.msg) {
+                            alert(result.msg);
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

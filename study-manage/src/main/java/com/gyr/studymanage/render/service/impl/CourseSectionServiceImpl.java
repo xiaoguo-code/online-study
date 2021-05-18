@@ -54,10 +54,10 @@ public class CourseSectionServiceImpl implements CourseSectionService {
         if (StringUtils.isNotBlank(courseSectionInfo.getSectionName())){
             wrapper.eq("sectionName",courseSectionInfo.getSectionName());
         }
-        if(courseSectionInfo.getCourseId()==null){
+        if(courseSectionInfo.getCourseId()!=null){
             wrapper.eq("courseId",courseSectionInfo.getCourseId());
         }
-        if (courseSectionInfo.getPriority()==null){
+        if (courseSectionInfo.getPriority()!=null){
             wrapper.eq("priority",courseSectionInfo.getPriority());
         }
         return courseSectionMapper.selectOne(wrapper);

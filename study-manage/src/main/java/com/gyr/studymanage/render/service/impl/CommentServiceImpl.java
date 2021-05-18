@@ -1,9 +1,12 @@
 package com.gyr.studymanage.render.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gyr.studycommon.dao.CommentMapper;
 import com.gyr.studycommon.entity.CategoryInfo;
 import com.gyr.studycommon.entity.CommentInfo;
+import com.gyr.studycommon.util.PageUtils;
 import com.gyr.studymanage.render.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +46,23 @@ public class CommentServiceImpl implements CommentService {
             }
         }
         return parent;
+    }
+
+    @Override
+    public PageUtils getAllCommentByCondition(CommentInfo commentInfo) {
+        if(commentInfo.getPageIndex()==null){
+            commentInfo.setPageIndex(1);
+        }
+        if(commentInfo.getPageSize()==null){
+            commentInfo.setPageSize(10);
+        }
+        IPage<CommentInfo> page = new Page<>(commentInfo.getPageIndex(),commentInfo.getPageSize());
+        QueryWrapper wrapper = new QueryWrapper();
+        if(StringUtils.isNotBlank(commentInfo.getContent())){
+            wrapper.like("content",commentInfo.getContent());
+        }
+        IPage iPage = commentMapper.selectPage(page, wrapper);
+        return new PageUtils(iPage);
     }
 
     /**

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -64,6 +65,18 @@ public class ArticleController {
         PageUtils page = null;
        try {
             page = articleService.getArticlePageByCondition(conditions);
+           List<Article> articles = (List<Article>) page.getList();
+           if(!CollectionUtils.isEmpty(articles)){
+               for (Article obj :
+                       articles) {
+                   String[] categoryIds = obj.getBlogType().split(",");
+                   CategoryInfo one = categoryService.getCategoryInfoById(Integer.parseInt(categoryIds[0]));
+                   CategoryInfo two = categoryService.getCategoryInfoById(Integer.parseInt(categoryIds[1]));
+                   CategoryInfo three = categoryService.getCategoryInfoById(Integer.parseInt(categoryIds[2]));
+                   String typeName = one.getTitle()+"-"+two.getTitle()+"-"+three.getTitle();
+                   obj.setBlogType(typeName);
+               }
+           }
            model.addAttribute("page",page);
            model.addAttribute("articleList",page.getList());
        } catch (Exception e) {
@@ -267,7 +280,7 @@ public class ArticleController {
             article.setViews(String.valueOf(1));
             article.setComments(String.valueOf(0));
             article.setLikes(String.valueOf(0));
-            article.setIsOpen(String.valueOf(0));
+            article.setIsOpen(String.valueOf(1));
             // 只允许博客文章有分类，防止作品被收入分类
             article.setTags(tags);
 

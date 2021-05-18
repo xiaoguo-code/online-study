@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 public class CategoryConditionVO {
 
+    private Integer categoryId;
+
     private Integer parentId;
 
     private String title;

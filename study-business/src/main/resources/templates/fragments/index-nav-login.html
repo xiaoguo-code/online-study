@@ -1,0 +1,140 @@
+
+<script type="text/javascript">
+
+</script>
+<div>
+    <br>
+    <table width="100%">
+        <tbody>
+        <tr height="50px">
+            <td width="200px">
+                <a href="/business/main/index"><img height="40px" title="online-study" alt="online-study"
+                                                    src="/static/index/index-logo.png">
+                </a>
+            </td>
+            <td align="center">
+
+            </td>
+
+            <td align="right">
+
+
+            </td>
+
+            <td align="right" width="240px">
+                <div>
+
+<!--                    <form action="https://how2j.cn/frontsearch" method="post" class="validTokenForm1">-->
+<!--                        <div class="input-group" style="margin-right: 10px;width: 200px">-->
+<!--                            <input name="outsideSearchKeyword" class="form-control" placeholder="搜索.." required="">-->
+<!--                            <span class="input-group-btn ">-->
+<!--										<input type="hidden" name="tempBean.validToken">-->
+<!--										<button class="btn btn-default" type="submit">-->
+<!--											<span class="glyphicon glyphicon-search"></span>-->
+<!--										</button>-->
+<!--									</span>-->
+<!--                        </div>-->
+<!--                    </form>-->
+
+
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+<nav>
+
+    <div class="nav bg-primary">
+
+			<span class="pull-left">
+				<a href="/business/main/index">首页</a>
+
+
+
+<!--				<a style="color: #F0AD4E; font-weight: bold" href="https://how2j.cn/stage/39.html">实践项目</a>-->
+
+<!--				<a class="requireAuthentication" style="color: #F0AD4E; font-weight: bold"-->
+<!--				   href="https://how2j.cn/frontshopPage?product.id=19">全站通</a>-->
+<!--				<a href="https://how2j.cn/frontroute">学习路线</a>-->
+
+<!--				<a class="requireAuthentication" href="https://how2j.cn/frontcommentsByStages">学员问题</a>-->
+<!--				<a class="requireAuthentication" href="https://how2j.cn/frontrecent">最近访问</a>-->
+<!--                <th:block th:if="${session.login_user_user!=null}">-->
+<!--                    <div class=" btn-group" style="margin-top:-2.5px;">-->
+<!--                        <div class="inputright" style="width: 100px;background-color:#337AB7;">-->
+<!--                            <select id="example-select-one" name="" class="form-control input-sm">-->
+<!--    &lt;!&ndash;                            <option value="" selected="selected">选择类别</option>&ndash;&gt;-->
+<!--                                <option value="" th:value="${category.categoryId}" th:text="${category.title}"-->
+<!--                                        th:selected="${category.categoryId}==${parentId}"-->
+<!--                                        th:each="category:${indexModel.one}" >作品</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </th:block>-->
+
+                <!--				<a style="position:relative" id="newestLessons"-->
+<!--				   href="https://how2j.cn/k/plan/plan-history/1785.html">-->
+<!--						最新教程-->
+<!--				</a>-->
+
+
+			</span>
+
+        <span class="pull-right">
+
+
+<!--					<a class="requireAuthentication" id="loginShowName" href="https://how2j.cn/frontconfigPage"><span-->
+            <!--                            class="username"></span></a>-->
+
+<!--					<a class="requireAuthentication" id="loginShowName" style="text-decoration: underline"-->
+<!--                       href="https://how2j.cn/frontscoreProducePage">边学边赚</a>-->
+                    <th:block th:if="${session.login_user_user!=null}">
+                        <div class=" btn-group" style="margin-top:-2.5px;">
+                            <a  th:text="${session.login_user_user.email}" style="text-decoration: none;background-color:#337AB7;" href="#" data-toggle="dropdown">
+
+                              <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu moreMenu" style="background-color: #337AB7;border-color: #245580;" role="menu">
+                                    <li>
+                                        <a href="/business/user/showUserInfo">个人信息完善</a>
+                                    </li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li>
+                                        <a href="https://how2j.cn/frontprogress">文章上传</a>
+                                    </li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li>
+                                        <a href="https://how2j.cn/frontmyQuestion">文章管理</a>
+                                    </li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li>
+                                        <a href="https://how2j.cn/frontmyAnswer">浏览记录</a>
+                                    </li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li>
+                                        <a href="https://how2j.cn/frontshowMyFavorites">关注的用户</a>
+                                    </li>
+
+                            </ul>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${session.login_user_user!=null}">
+					    <a  href="/business/logout">退出</a>
+                    </th:block>
+
+<!--					<a class="hideIfAuthentication" href="https://how2j.cn/frontloginPage?act=register">注册</a>-->
+                    <th:block th:if="${session.login_user_user==null}">
+					    <a class="hideIfAuthentication" href="/business/login">登录</a>
+                    </th:block>
+            <!--					<a href="https://how2j.cn/frontqqQun" alt="qq群: 496725845"-->
+            <!--                       title="qq群：496725845，如果满了请到 how2j.cn 获取最新的群">加入QQ群</a>-->
+
+			</span>
+
+    </div>
+</nav>

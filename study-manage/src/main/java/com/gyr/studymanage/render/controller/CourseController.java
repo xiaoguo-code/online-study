@@ -177,14 +177,17 @@ public class CourseController {
             CourseInfo course = courseService.getCoursesInfoByCondition(courseInfo.getCategoryIds(), courseInfo.getCourseName());
             //获取章节列表
             String[] sectionNames = courseVO.getCourseSectionNames().split(",");
+            String[] sectionDescribes = courseVO.getSectionDescribes().split(",");
             //获取标签列表
             String[] sectionTags = courseVO.getCourseSectionTagNames().split("-");
             //章节信息入库
             for (int i = 0; i < sectionNames.length; i++) {
                 String name = sectionNames[i];
+                String sectionDescribe = sectionDescribes[i];
                 CourseSectionInfo  courseSectionInfo  = new CourseSectionInfo();
                 courseSectionInfo.setCourseId(course.getCourseId());
                 courseSectionInfo.setSectionName(name);
+                courseSectionInfo.setSectionDescribes(sectionDescribe);
                 courseSectionInfo.setPriority(i+1);
                 courseSectionInfo.setCreateTime(courseVO.getCreateTime());
                 courseSectionService.save(courseSectionInfo);

@@ -1,6 +1,7 @@
 package com.gyr.studycommon.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -84,5 +85,9 @@ public class Article  implements Serializable {
      */
     private String allowComment;
 
+    @TableField(exist = false)
+    private String commentQuantity;
+    @TableField(exist = false)
+    private String browseQuantity;
 
 }

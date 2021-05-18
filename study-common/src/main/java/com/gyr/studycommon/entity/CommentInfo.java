@@ -28,6 +28,21 @@ public class CommentInfo extends Comment{
      */
     private String updateTime;
 
+    @TableField(exist = false)
+    private String sendName;
+
+    @TableField(exist = false)
+    private String receiveName;
+
+    @TableField(exist = false)
+    private String senderEmail;
+
+    @TableField(exist = false)
+    private Integer pageIndex;
+
+    @TableField(exist = false)
+    private Integer pageSize;
+
     /**
      * 所有子级
      */

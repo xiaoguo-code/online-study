@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习平台后台管理</title>
+    <script th:src="@{~/static/component/js/JQuery2.1.4.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/component/style/components.css}">
+    <script th:src="@{~/static/component/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{~/static/userInfo/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{~/static/userInfo/css/plugins.css}">
+<!--    <link rel="stylesheet" th:href="@{~/static/userInfo/css/main.css}">-->
+    <link rel="stylesheet" th:href="@{~/static/userInfo/css/themes.css}">
+    <link rel="stylesheet" th:href="@{~/static/userInfo/css/component-tageditor.css}">
+    <script th:src="@{~/static/component/plugins/laydate/laydate.js}"></script>
+    <script th:src="@{~/static/component/plugins/layer/layer.js}"></script>
+    <!--    <script th:src="@{~/static/category/category01.js}"></script>-->
+    <script th:src="@{~/static/userInfo/js/thymeleaf-bootstrap-paginator.js}"></script>
+    <script th:src="@{~/static/userInfo/js/jquery.tag-editor.js}"></script>
+<!--    <script th:src="@{~/static/tag/tag-init.js}"></script>-->
+<!--    <script th:src="@{~/static/course/add_course.js}"></script>-->
+</head>
+<style>
+    a:hover{
+        color: #fff;
+    }
+    /*a:active{*/
+    /*   */
+    /*}*/
+    /*a:focus {*/
+    /*    */
+    /*}*/
+</style>
+<body>
+<!--<div  th:replace="~{fragments/index-nav-login}">...</div>-->
+<script type="text/javascript">
+
+</script>
+<div>
+
+    <br>
+    <table width="100%">
+        <tbody>
+        <tr height="50px">
+            <td width="200px">
+                <a href="/business/main/index"><img height="40px" title="online-study" alt="online-study"
+                                                    src="/static/index/index-logo.png">
+                </a>
+            </td>
+            <td align="center">
+
+            </td>
+
+            <td align="right">
+
+
+            </td>
+
+            <td align="right" width="240px">
+                <div>
+
+                    <!--                    <form action="https://how2j.cn/frontsearch" method="post" class="validTokenForm1">-->
+                    <!--                        <div class="input-group" style="margin-right: 10px;width: 200px">-->
+                    <!--                            <input name="outsideSearchKeyword" class="form-control" placeholder="搜索.." required="">-->
+                    <!--                            <span class="input-group-btn ">-->
+                    <!--										<input type="hidden" name="tempBean.validToken">-->
+                    <!--										<button class="btn btn-default" type="submit">-->
+                    <!--											<span class="glyphicon glyphicon-search"></span>-->
+                    <!--										</button>-->
+                    <!--									</span>-->
+                    <!--                        </div>-->
+                    <!--                    </form>-->
+
+
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+<nav style="padding-left: 0;list-style: none;">
+
+    <div class="nav bg-primary" style="color: #fff;height: 45px;padding-top: 13px;">
+
+			<span class="pull-left">
+				<a href="/business/main/index" style="font-size: 15px;color: #fff;margin-left: 12px;margin-right: 12px" >首页</a>
+
+
+
+
+			</span>
+
+        <span class="pull-right">
+
+
+<!--					<a class="requireAuthentication" id="loginShowName" href="https://how2j.cn/frontconfigPage"><span-->
+            <!--                            class="username"></span></a>-->
+
+            <!--					<a class="requireAuthentication" id="loginShowName" style="text-decoration: underline"-->
+            <!--                       href="https://how2j.cn/frontscoreProducePage">边学边赚</a>-->
+                    <th:block th:if="${session.login_user_user!=null}">
+                        <div class=" btn-group" style="margin-top:-2.5px;font-size: 15px;" >
+                            <a  th:text="${session.login_user_user.email}" style="text-decoration: none;color: #fff;font-size: 15px" href="#" data-toggle="dropdown">
+
+                              <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu moreMenu" style="background-color: #337AB7;border-color: #245580;" role="menu">
+                                    <li>
+                                        <a style="color: #fff; " href="/business/user/showUserInfo">个人信息完善</a>
+                                    </li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li>
+                                        <a style="color: #fff; " href="https://how2j.cn/frontprogress">文章上传</a>
+                                    </li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li>
+                                        <a style="color: #fff; " href="https://how2j.cn/frontmyQuestion">文章管理</a>
+                                    </li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li>
+                                        <a style="color: #fff; " href="https://how2j.cn/frontmyAnswer">浏览记录</a>
+                                    </li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li>
+                                        <a style="color: #fff; " href="https://how2j.cn/frontshowMyFavorites">关注的用户</a>
+                                    </li>
+
+                            </ul>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${session.login_user_user!=null}">
+					    <a  href="/business/logout" style="font-size: 15px;color: #fff;margin-left: 12px;margin-right: 12px">退出</a>
+                    </th:block>
+
+            <!--					<a class="hideIfAuthentication" href="https://how2j.cn/frontloginPage?act=register">注册</a>-->
+                    <th:block th:if="${session.login_user_user==null}">
+					    <a class="hideIfAuthentication" href="/business/login" style="font-size: 15px;color: #fff;margin-left: 12px;margin-right: 12px">登录</a>
+                    </th:block>
+            <!--					<a href="https://how2j.cn/frontqqQun" alt="qq群: 496725845"-->
+            <!--                       title="qq群：496725845，如果满了请到 how2j.cn 获取最新的群">加入QQ群</a>-->
+
+			</span>
+
+    </div>
+</nav>
+    <div id="body">
+        <ol class="breadcrumb" >
+            <li class="active" ><a href="#">个人信息完善</a></li>
+        </ol>
+
+
+        <div class="tabli">
+            <span class="active" style="background-color: #337AB7">填写信息</span>
+        </div>
+
+        <div class="tabbody">
+            <div class="bodyli active">
+                <!-- ///// -->
+                <input type="hidden" id="userId" name="userId" th:value="${userInfo.userId}">
+                <div class="inputbox">
+                    <span class="title">用户名</span>
+                    <div class="inputright">
+                        <input type="text" th:value="${userInfo.userName}" name="userName" id="userName" class="form-control input-sm">
+                    </div>
+                    <span class="title">邮箱</span>
+                    <div class="inputright">
+                        <input type="text" th:value="${userInfo.email}" name="email" id="email" class="form-control input-sm">
+                    </div>
+                </div>
+                <!-- ///// -->
+                <div class="inputbox">
+                    <span class="title">密码</span>
+                    <div class="inputright">
+                        <input type="text" th:value="${userInfo.password}" name="password" id="password" class="form-control input-sm">
+                    </div>
+                    <span class="title">电话</span>
+                    <div class="inputright">
+                        <input type="text" th:value="${userInfo.telPhone}" name="telPhone" id="telPhone" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <span class="title">真实姓名</span>
+                    <div class="inputright">
+                        <input type="text" th:value="${userInfo.realName}" name="realName" id="realName" class="form-control input-sm">
+                    </div>
+                    <span class="title">身份证</span>
+                    <div class="inputright">
+                        <input type="text" th:value="${userInfo.IDCard}" name="IDCard" id="IDCard" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="inputbox">
+                    <span class="title">性别</span>
+                    <div class="inputright">
+                        <input type="text" th:value="${userInfo.gender}" name="gender" id="gender" class="form-control input-sm">
+                    </div>
+                    <span class="title">年龄</span>
+                    <div class="inputright">
+                        <input type="text" th:value="${userInfo.age}" name="age" id="age" class="form-control input-sm">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="tbfooter">
+            <button class="btn btn-success" style="background-color: #337AB7" onclick="saveUserInfo()"><i class="fa fa-floppy-o"></i> 保存</button>
+        </div>
+    </div>
+
+<!--    <script th:src="./component/plugins/tinymce/tinymce.min.js"></script>-->
+    <script>
+
+        function saveUserInfo() {
+            let userId = $("#userId").val();
+            let userName = $("#userName").val();
+            let password = $("#password").val();
+            let email = $("#email").val();
+            let telPhone = $("#telPhone").val();
+            let realName = $("#realName").val();
+            let IDCard = $("#IDCard").val();
+            let gender = $("#gender").val();
+            let age = $("#age").val();
+            if(userName.length===0||password.length===0||email.length===0||telPhone.length===0||realName.length===0
+                ||IDCard.length===0||realName.length===0){
+                layer.msg('请完善信息！', { icon: 1 });
+                return;
+            }
+            $.ajax({
+                async: true,
+                type: 'POST',  //提交方法是GET
+                url: '/business/user/userInfo', //请求的路径
+                data: {
+                    async:true,
+                    userId:userId,
+                    userName:userName,
+                    email:email,
+                    telPhone:telPhone,
+                    realName:realName,
+                    IDCard:IDCard,
+                    gender:gender,
+                    age:age,
+                },
+                headers: {
+                    contentType: "application/json",
+                },
+                timeout: 10000,
+                error: function () {
+                    layer.msg('失败！', { icon: 1 });
+                },
+                success: function (data) {
+                    if(data.code===200){
+                        layer.msg('更新成功！', { icon: 1 });
+                        // window.location.href="/business/main/index";
+                    }else{
+                        layer.msg(data.msg, { icon: 1 });
+                    }
+                },
+                complete: function () {
+
+                }
+            });
+
+
+        }
+        // 1、选项卡
+        $('.tabli span').click(function () {
+            $('.tabli span').removeClass('active');
+            $(this).addClass('active').siblings('span').removeClass('active');
+            var id = $(this).index();
+            $('.bodyli').removeClass('active');
+            $('.bodyli').eq(id).addClass('active');
+        })
+
+        // 2、创建日期
+        laydate.render({
+            elem: '#date',
+            theme:"#5cb85c",
+            format: 'yyyy-MM-dd', //指定时间格式
+            value: new Date(), // 创建日期默认为当天
+        });
+
+        // 3、富文本编辑器 http://tinymce.ax-z.cn/
+        tinymce.init({
+            selector: '#content',
+            language:'zh_CN',
+            menubar: false, //隐藏上面的一个工具栏标题栏
+            branding: false,
+            plugins: 'image code batchUploadImage imagetools link hr table media preview ',
+            toolbar:"undo  redo | removeformat  lineheight  | alignleft  aligncenter alignright alignjustify |  fontselect fontsizeselect | table  media  forecolor backcolor bold italic underline  strikethrough formats | bullist  numlist outdent  indent blockquote | image batchUploadImage imagetools  | code link hr | preview ",
+            height: 550,
+            fontsize_formats: '12px 13px 14px 15px 16px 17px 18px 19px 20px 21px 22px 23px 24px 36px 48px',
+            images_upload_url: '/demo/upimg.php', // 图片上传URL
+            images_upload_base_path: '/demo',     // 存储路径
+            content_style: "img {max-width:100%;}"
+        });
+    </script>
+</body>
+
+</html>

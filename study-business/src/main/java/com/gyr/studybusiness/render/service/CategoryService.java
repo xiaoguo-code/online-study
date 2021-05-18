@@ -1,33 +1,52 @@
 package com.gyr.studybusiness.render.service;
 
 
-import com.gyr.studycommon.entity.Category;
 import com.gyr.studycommon.entity.CategoryInfo;
-import com.gyr.studycommon.vo.CategoryVO;
+import com.gyr.studycommon.util.PageUtils;
+import com.gyr.studycommon.vo.CategoryConditionVO;
 
 import java.util.List;
 
 /**
- * 
- *
- * @author chenshun
- * @email sunlightcs@gmail.com
- * @date 2021-03-14 20:10:30
+ * 类别service
+ * @author guoyr
  */
 public interface CategoryService {
 
-    /*获取所有层级类别*/
+    /**
+     * 获取所有层级类别信息
+     * @return
+     */
     List<CategoryInfo> findAllCategory();
-    /*获取第一层级类别*/
 
-    /*获取第二层级类别*/
+    /**
+     * 获取第一层级类别信息
+     * @return
+     */
+    List<CategoryInfo> getParentCategory(Integer parentId);
 
-    /*添加类别*/
-    boolean save(CategoryInfo category);
-    /*更新类别*/
-    boolean update(CategoryInfo category);
-    /*移除类别*/
-    boolean remove(int categoryId);
+    List<CategoryInfo> getCategoryByCondition(CategoryConditionVO conditionVO);
+
+    /**
+     * 获取上一层级类别信息
+     * @return
+     */
+    List<CategoryInfo> getPreParentCategory(Integer parentId);
+
+
+    /**
+     * 根据类别id获取类别信息
+     * @param categoryId
+     * @return
+     */
+    CategoryInfo getCategoryInfoById(Integer categoryId);
+
+    /**
+     * 返回id字符串   “1,2,3"
+     * @param categoryId
+     * @return
+     */
+    String getParentChildIdToStr(String categoryId);
 
 
 }

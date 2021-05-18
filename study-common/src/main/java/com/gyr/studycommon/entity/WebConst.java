@@ -23,6 +23,8 @@ public class WebConst {
      */
     public static String LOGIN_SESSION_KEY = "login_user";
 
+    public static String LOGIN_SESSION_USER_KEY = "login_user_user";
+
     /**
      * cookie的key
      */

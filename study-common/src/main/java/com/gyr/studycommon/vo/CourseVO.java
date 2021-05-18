@@ -36,6 +36,11 @@ public class CourseVO extends CourseInfo {
     private String courseSectionNames;
 
     /**
+     * 章节对应的描述
+     */
+    private String sectionDescribes;
+
+    /**
      * 课程对应章节所对应的标签
      */
     private String courseSectionTagNames;

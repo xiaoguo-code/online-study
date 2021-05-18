@@ -18,7 +18,7 @@ $(document).on("click",".tbpage-item",function (){
     if($(this).parent().attr("class").indexOf("active")>1){
         console.log("为当前页面");
     }else{
-        getStudyLineList(pageIndex, pageSize);
+        getArticleList(pageIndex, pageSize);
     }
 })
 $(document).on("click",".tbpage-size",function (){
@@ -26,7 +26,7 @@ $(document).on("click",".tbpage-size",function (){
 
     var pageSize = $('.tbpage-size option:selected').val();
     _pageSize = pageSize;
-    getStudyLineList(pageIndex, pageSize);
+    getArticleList(pageIndex, pageSize);
 })
 /*分页-end*/
 

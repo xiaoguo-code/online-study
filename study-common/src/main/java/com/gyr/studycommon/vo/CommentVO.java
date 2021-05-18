@@ -16,8 +16,4 @@ import java.util.List;
 @Data
 public class CommentVO extends CommentInfo {
 
-    /**
-     * 所有子级
-     */
-    private List<CommentInfo> childrenList;
 }

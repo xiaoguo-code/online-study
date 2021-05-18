@@ -34,6 +34,10 @@ public class CourseSection implements Serializable {
      */
     private String  sectionName;
     /**
+     * 章节描述
+     */
+    private String  sectionDescribes;
+    /**
      * 章节优先级顺序
      */
     private Integer priority;

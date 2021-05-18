@@ -51,8 +51,10 @@ $(document).on("click","#addCourseSectionBtn",function () {
         "                    <div class=\"inputright\">\n" +
         "                        <input type=\"text\" name=\"courseSection\" value=\"\" class=\"form-control input-sm\">\n" +
         "                    </div>\n" +
-        // "                    <button class=\"btn btn-danger pull-left ml10\" data-toggle=\"tooltip\" title=\"\" id=\"deleteSection\" data-placement=\"right\"\n" +
-        // "                            data-original-title=\"删除\"><i class=\"fa fa-trash-o\"></i></button>\n" +
+        "<span class=\"title\" >描述</span>\n" +
+        "                    <div class=\"inputright\">\n" +
+        "                        <input type=\"text\" name=\"courseSectionDescribe\" value=\"\" class=\"form-control input-sm\">\n" +
+        "                    </div>"+
         "                </div>";
     $("#course_section_module").append(data);
     $("#course_section_tag_module").html("");
@@ -114,6 +116,23 @@ function sectionCheck() {
     let ids = sectionValues.slice(0,sectionValues.length-1);
     return ids;
 }
+function sectionDescribeCheck() {
+    let sectionObjs = $("#course_section_module").find("input[name='courseSectionDescribe']");
+    let flag = 0;
+    let sectionValues ="";
+    sectionObjs.each(function () {
+        let sectionValue = $(this).val();
+        if(sectionValue.length===0){
+            flag ++ ;
+        }
+        sectionValues = sectionValues + sectionValue +",";
+    });
+    if(flag>0){
+        return "";
+    }
+    let ids = sectionValues.slice(0,sectionValues.length-1);
+    return ids;
+}
 function sectionTagCheck() {
     let sectionTagObjs = $("#course_section_tag_module").find("input[name='courseSectionTag']");
     let flag = 0;
@@ -150,6 +169,12 @@ function saveCourse(){
         layer.msg('请完善章节信息', { icon: 1 });
         return;
     }
+    //检查描述
+    let sectionDescribes = sectionDescribeCheck();
+    if(sectionDescribes.length===0){
+        layer.msg('请完善章节描述信息', { icon: 1 });
+        return;
+    }
     //章节对应的标签校验
     let sectionTagValues = sectionTagCheck();
     if(sectionTagValues.length===0){
@@ -166,7 +191,8 @@ function saveCourse(){
             priority:priority,
             categoryIds:categoryIds,
             courseSectionNames:sectionValues,
-            courseSectionTagNames:sectionTagValues
+            courseSectionTagNames:sectionTagValues,
+            sectionDescribes:sectionDescribes
         },
         headers: {
             contentType: "application/json",

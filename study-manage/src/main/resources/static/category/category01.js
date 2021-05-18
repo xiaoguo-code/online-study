@@ -94,18 +94,22 @@ $(document).on("change","#add_childId_select",function () {
 $(document).on("click", "#editName", function () {
     $("#editCategoryId").val("");
     $("#editTitle").val("");
+    $("#editTitleDescribe").val("");
     let cateId = $(this).attr("cateId");
     let cateName = $(this).attr("cateName");
+    let cateTitleDescribe = $(this).attr("cateTitleDescribe");
 
     $("#editCategoryId").val(cateId);
     $("#editTitle").val(cateName);
+    $("#editTitleDescribe").val(cateTitleDescribe);
 
 })
 
 $(document).on("click","#editSubmitBtn02",function () {
     let cateId = $("#editCategoryId").val();
     let cateTitle = $("#editTitle").val();
-
+    let editTitleDescribe = $("#editTitleDescribe").val();
+    // alert("da"+editTitleDescribe);
     $.ajax({
         async: true,
         type: 'POST',  //提交方法是GET
@@ -116,6 +120,7 @@ $(document).on("click","#editSubmitBtn02",function () {
             // pageSize: pageSize,
             categoryId: cateId,
             title: cateTitle,
+            titleDescribe: editTitleDescribe,
             // courseId:$('input:radio[name="courseRadio"]:checked').val(),
         },
         headers: {
@@ -151,6 +156,7 @@ $(document).on("click","#editSubmitBtn02",function () {
 $(document).on("click", "#addName", function () {
     $("#categoryId").val("");
     $("#title").val("");
+    $("#titleDescribe").val("");
     getCategory011();
     data = "<select id=\"add_childId_select\" name=\"val_skill\" class=\"form-control \">\n" +
         "                                            <option value=\"\" >二级类别...</option>\n" +
@@ -169,9 +175,11 @@ $(document).keyup(function (e){
 $(document).on("click","#editSubmitBtn",function (){
     let cateId = $("#categoryId").val();
     let cateTitle = $("#title").val();
+    let titleDescribe = $("#titleDescribe").val();
     let parentId =  $("#add_parentId_select option:selected").val();
     let childId =  $("#add_childId_select option:selected").val();
     let _layer =2;
+    // alert("title="+titleDescribe);
     console.log("1.parentId="+parentId);
     console.log("childId="+childId);
     if(parentId.length>0&&childId.length>0){
@@ -194,6 +202,7 @@ $(document).on("click","#editSubmitBtn",function (){
             title: cateTitle,
             parentId: parentId,
             layer: _layer,
+            titleDescribe: titleDescribe,
             // courseId:$('input:radio[name="courseRadio"]:checked').val(),
         },
         headers: {

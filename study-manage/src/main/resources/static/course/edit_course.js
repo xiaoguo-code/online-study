@@ -159,6 +159,25 @@ function sectionCheck() {
 
     return ids+"="+values;
 }
+function sectionDescribeCheck() {
+    // let sectionOjbIds = $("#course_section_module").find("input[name='sectionId']");
+    let sectionObjs = $("#course_section_module").find("input[name='courseSectionDescribe']");
+    let flag = 0;
+    let sectionValues ="";
+    sectionObjs.each(function () {
+        let sectionValue = $(this).val();
+        if(sectionValue.length===0){
+            flag ++ ;
+        }
+        sectionValues = sectionValues + sectionValue +",";
+    });
+    if(flag>0){
+        return "";
+    }
+    let values = sectionValues.slice(0,sectionValues.length-1);
+
+    return values;
+}
 function sectionTagCheck() {
     let sectionTagIdObjs = $("#course_section_tag_module").find("input[name='sectionTagId']");
     let sectionTagObjs = $("#course_section_tag_module").find("input[name='courseSectionTag']");
@@ -206,13 +225,18 @@ function updateCourse(){
         layer.msg('请完善章节信息', { icon: 1 });
         return;
     }
+    let sectionDescribes = sectionDescribeCheck();
+    if(sectionDescribes.length===0){
+        layer.msg('请完善章节描述信息', { icon: 1 });
+        return;
+    }
     //章节对应的标签校验
     let sectionTagIdValues = sectionTagCheck();
     if(sectionTagIdValues.length===0){
         layer.msg('请完善标签信息', { icon: 1 });
         return;
     }
-    alert("courseId"+courseId+"categoryIds="+categoryIds+",courseName="+courseName+",priority="+priority+",sectionIds,sectionValues="+sectionIdValues+",tag="+sectionTagIdValues);
+    //alert("courseId"+courseId+"categoryIds="+categoryIds+",courseName="+courseName+",priority="+priority+",sectionIds,sectionValues="+sectionIdValues+",tag="+sectionTagIdValues);
     $.ajax({
         async: true,
         type: 'POST',  //提交方法是GET

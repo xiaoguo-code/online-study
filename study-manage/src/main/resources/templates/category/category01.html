@@ -113,7 +113,7 @@
 <!--                                    data-target="#iconModal"  th:attr="cateId=${category.categoryId},cateName=${category.title}" id="editName" title="编辑"><i-->
 <!--                                        class="fa fa-pencil"></i></a>-->
                                 <a href="javascript:;" class="btn btn-xs btn-success" data-toggle="modal" data-target="#iconModalEdit"
-                                   data-placement="top" th:attr="cateId=${category.categoryId},cateName=${category.title},
+                                   data-placement="top" th:attr="cateId=${category.categoryId},cateName=${category.title},cateTitleDescribe=${category.titleDescribe},
                                    parentId = ${category.parentId},_layer=${category.layer}" id="editName" title="编辑"><i class="fa fa-pencil"></i></a>
                                 <a href="javascript:;" class="btn btn-xs btn-danger delbtn" data-toggle="tooltip"
                                     data-placement="top" th:attr="cateId=${category.categoryId}" id="deleteCategory" title="删除"><i class="fa fa-trash-o"></i></a>
@@ -142,9 +142,15 @@
                                 <input type="hidden" id="_layer" value="0" name="addParentId">
                                 <!--                                <input type="hidden" id="preParentId" th:value="${preParentId}"  name="addParentId">-->
                                 <div class="inputbox">
-<!--                                    <span class="title"><em style="color: red">*</em> </span>-->
+                                    <span class="title"><em style="color: red">*</em> 类别名</span>
                                     <div class="inputright">
                                         <input type="text" name="title" id="editTitle" class="form-control input-sm">
+                                    </div>
+                                </div>
+                                <div class="inputbox">
+                                    <span class="title"><em style="color: red">*</em> 描述</span>
+                                    <div class="inputright">
+                                        <input type="text" name="titleDescribe" id="editTitleDescribe" class="form-control input-sm">
                                     </div>
                                 </div>
                                 <input class="submitFormInput" type="submit" style="display:none" />
@@ -202,6 +208,12 @@
                                     <span class="title"><em style="color: red">*</em> 类别名</span>
                                     <div class="inputright">
                                         <input type="text" name="title" id="title" class="form-control input-sm">
+                                    </div>
+                                </div>
+                                <div class="inputbox">
+                                    <span class="title"><em style="color: red">*</em> 描述</span>
+                                    <div class="inputright">
+                                        <input type="text" name="titleDescribe" id="titleDescribe" class="form-control input-sm">
                                     </div>
                                 </div>
                                 <input class="submitFormInput" type="submit" style="display:none" />

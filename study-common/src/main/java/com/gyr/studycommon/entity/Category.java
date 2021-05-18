@@ -53,4 +53,6 @@ public class Category implements Serializable {
      * 层级
      */
     private String layer;
+
+    private String titleDescribe;
 }

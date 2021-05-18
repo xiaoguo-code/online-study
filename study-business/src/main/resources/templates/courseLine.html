@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)https://how2j.cn/stage/25.html -->
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+    <script type="text/javascript" async="" charset="utf-8" th:src="@{~/static/index/core.php}"></script>
+    <script type="text/javascript">
+        // JavaScript Document
+        function urlredirect() {
+
+        }
+
+
+        urlredirect();
+
+
+    </script>
+
+    <meta property="qc:admins" content="1536376677221616375">
+    <meta name="keywords"
+          content="java,java教程,j2se初级,j2se中级,HTML,CSS,DOM,JavaScript,jQuery,AJAX,MySQL,SQL,jquery,bootstrap">
+    <meta name="description" content="本平台提供了全面的学习路线">
+
+
+    <!--taglib	-->
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{~/static/index/style.css}">
+
+
+    <!-- <link href="/css/all.css" rel="stylesheet"> -->
+
+
+    <link th:href="@{~/static/index/all.css}" rel="stylesheet">
+
+
+    <!-- <link href="http://how2j-static.oss-cn-beijing.aliyuncs.com/css/all.css" rel="stylesheet"> -->
+
+
+    <!-- 	<link rel="stylesheet" type="text/css" href="/css/front/style.css" /> -->
+    <link rel="shortcut icon" href="https://how2j.cn/img/site/favicon.ico">
+
+
+    <!-- <script src="/js/all.js"></script> -->
+
+
+    <script th:src="@{~/static/index/all.js.下载}"></script>
+
+
+    <script th:src="@{~/static/index/code.js.下载}"></script>
+    <script th:src="@{~/static/index/js/index-two.js}"></script>
+
+
+    <!-- <meta HTTP-EQUIV="pragma" CONTENT="no-cache">  -->
+    <!-- <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">  -->
+    <!-- <meta HTTP-EQUIV="expires" CONTENT="0">  -->
+
+
+    <style>
+        .div4NotActive {
+            display: none;
+        }
+
+        .div4Active {
+            display: none;
+        }
+
+        div.stepAnswer {
+            display: none;
+        }
+
+        div.stepAnswerStatment {
+            display: none;
+        }
+
+        .requireProjectRight {
+            display: none;
+        }
+
+        .showIfProjectRight {
+            display: none;
+        }
+
+        .showIfNotProjectRight {
+            display: none;
+        }
+
+        .showIfNotLogin {
+            display: none;
+        }
+
+        video {
+            cursor: pointer;
+        }
+
+        .showIfAdmin {
+            display: none;
+        }
+
+        .menuName {
+            font-size: 12px !important;
+        }
+    </style>
+
+    <!--4offlinejs-->
+
+    <script type="text/javascript">
+        var logon = false;
+        var kid = -1;
+        var mid = -1;
+        var uid = -1;
+        var homePage = false;
+        var stagePage = false;
+        var knowledgePage = false;
+        var admin = false;
+        var active = false;
+        var currentScore = 0;
+
+        var videoConsumed = false;
+        var hasProjectRight = false;
+        var hasVideoRight = false;
+        var hasAnswerRight = false;
+
+        var checkProject = false;
+        var checkVideo = false;
+        var checkAnswer = false;
+
+        var sessionid = "";
+        var sessionLoginCount = 1;
+
+        $(function () {
+
+// 	background-color: ;
+// 	$("html").find("*").each(function(){
+// // 		rgb(255, 255, 255)
+// 		var bgColor = $(this).css("background-color");
+
+// 		if("rgb(255, 255, 255)"==bgColor){
+// 			console.log(bgColor);
+// 			$(this).css("background-color","#CCE8CF !important");
+// 		}
+
+// 	});
+
+            //默哀
+
+// 		$("html").css({
+// 	    '-webkit-filter': 'grayscale(50%)',
+// 	    '-moz-filter': 'grayscale(50%)',
+// 	    '-ms-filter': 'grayscale(50%)',
+// 	    '-o-filter': 'grayscale(50%)',
+// 	    'filter': 'progid:DXImageTransform.Microsoft.BasicImage(grayscale=1)',
+// 	    '_filter': 'none'
+// 	  });
+
+
+            stagePage = true;
+
+
+            var cookie_is_login = $.cookie("isLogin");
+
+
+// 	$("video").click(function(){
+// 		    if(this.paused){
+//  		        this.play();
+//  		    }else{
+//  		        this.pause();
+//  		    }
+//   	});
+
+
+            if ("true" == cookie_is_login) {
+                var page4info = "/frontinfo?module.id=" + mid + "&knowledge.id=" + kid;
+                $.get(page4info, function (response) {
+                    var info = eval("(" + response + ")");
+                    logon = info.logon;
+//     		console.log("logon:"+logon);
+                    if (logon) {
+                        //hide and show
+                        $(".requireAuthentication").show();
+                        $(".hideIfAuthentication").hide();
+
+                        //user
+                        uid = info.user.id;
+                        active = info.user.active;
+                        currentScore = info.user.score;
+
+                        admin = info.user.admin;
+
+                        if (admin) {
+                            $(".showIfAdmin").show();
+                        }
+
+                        //login name
+                        $(".username").html(info.user.name);
+
+                        //score
+                        $(".userscore").html(info.user.score);
+
+                        //progress
+                        if (-1 == mid) { //homepage
+                            var progress = info.progress;
+                            for (var k in progress) {
+                                var bar = $(".progress-bar[mid=" + k + "]");
+                                var value = progress[k];
+                                changeProgressBar(bar, value);
+                            }
+                        } else { //knowledgepage
+                            //active
+                            if (!active) {
+                                $(".div4NotActive").show();
+                            }
+                            if (active) {
+                                $(".div4Active").show();
+                            }
+
+                            //right up progress
+                            var progress = info.progress.singleProgress;
+                            value = progress;
+                            var bar = $(".progress-bar");
+                            changeProgressBar(bar, value);
+
+                            //left menu status
+                            var recordStatus = info.recordStatus;
+                            for (var k in recordStatus) {
+                                var item = $(".leftKnowledgeMenuItem[kid=" + k + "]");
+                                var status = recordStatus[k];
+                                var newClass = status + "_ready";
+                                item.addClass(newClass);
+                            }
+
+                            $("a.leftKnowledgeMenuItem.active").removeClass("finish_ready");
+                            $("a.leftKnowledgeMenuItem.finish_ready").addClass("finish");
+                            $("a.leftKnowledgeMenuItem.unread_ready").addClass("unread");
+
+                            //comment div delete button
+                            $("span.deleteCommentDiv[uid=" + uid + "]").show();
+                            if (admin) {
+                                $("div.eachCommentDiv[show='false']").show();
+                                $("span.deleteCommentDiv").show();
+                                $("span.recoverCommentDiv").show();
+                            }
+                            //rights
+                            videoConsumed = info.rights.videoConsumed;
+                            hasProjectRight = info.rights.hasProjectRight;
+                            hasVideoRight = info.rights.hasVideoRight;
+                            hasAnswerRight = info.rights.hasAnswerRight;
+
+                            checkProject = info.rights.checkProject;
+                            checkVideo = info.rights.checkVideo;
+                            checkAnswer = info.rights.checkAnswer;
+
+
+                            //rights-video
+                            if (!(videoConsumed || hasVideoRight)) {
+                                $("#addScore4videoDiv").show();
+                            }
+                            if (hasVideoRight) {
+                                //$("#addScore4videoDiv").hide();
+                            }
+
+                            //rights-stepanswer
+                            if (hasAnswerRight) {
+                                $(".hasStepAnswerRight").show();
+                            } else {
+                                var answers = info.answerSteps;
+                                console.log("answers:" + answers);
+                                console.log("answers.length:" + answers.length);
+                                for (var k in answers) {
+                                    value = answers[k];
+                                    console.log(1);
+                                    if ("true" == value) {
+                                        $(".stepAnswerConsumed[sid=" + k + "]").show();
+                                    } else {
+                                        console.log(2);
+
+                                        var enoughStatment = $(".stepAnswerEnoughScore[sid=" + k + "]");
+                                        var enoughScore = enoughStatment.attr("score");
+                                        if (currentScore >= enoughScore) {
+                                            console.log(3);
+
+                                            enoughStatment.show();
+                                            continue;
+                                        }
+                                        console.log(4);
+
+                                        var lackStatment = $(".stepAnswerLackScore[sid=" + k + "]");
+                                        var lackScore = lackStatment.attr("score");
+                                        if (currentScore < lackScore) {
+                                            console.log(5);
+
+                                            lackStatment.show();
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+
+
+                            if (checkProject && hasProjectRight) {
+                                //replaced by showIfProjectRight in footer
+                                //$(".showIfProjectRight").show();
+                                ajaxAuthorizedStepDescs();
+                            } else {
+                                $(".showIfNotProjectRight").show();
+                                //$(".showIfNotLogin").show();
+                            }
+                        }
+
+                        //noteComment
+                        if (null != info.noteComment) {
+                            $("#noteCommentCode").val(info.noteComment.noteCommentCode);
+                            $("#noteCommentDesc").val(info.noteComment.noteCommentDesc);
+                        }
+
+                        sessionid = info.sessionid;
+                        sessionLoginCount = info.sessionLoginCount;
+
+
+                        duplicatedLoginWebsocketCheck();
+                    }
+
+                    if (typeof headerCallback === "function") {
+                        headerCallback();
+                    }
+                });
+            }
+
+        })
+
+
+        function changeProgressBar(bar, value) {
+
+            bar.css({'width': value + "%"});
+            bar.html(value + "%");
+
+            var colorClass = "";
+            if (value <= 20)
+                colorClass = "progress-bar-danger";
+            else if (value <= 40)
+                colorClass = "progress-bar-warning";
+            else if (value <= 99)
+                colorClass = "progress-bar-info";
+            else
+                colorClass = "progress-bar-success";
+
+            bar.addClass(colorClass);
+        }
+
+        function duplicatedLoginWebsocketCheck() {
+            var websocket = null;
+            //判断当前浏览器是否支持WebSocket
+            if ('WebSocket' in window) {
+                websocket = new WebSocket("wss://" + location.hostname + "/ws/ls");
+
+                //连接成功建立的回调方法
+                websocket.onopen = function () {
+                    websocket.send(sessionid);
+                }
+
+                //接收到消息的回调方法
+                websocket.onmessage = function (event) {
+                    if ("duplicatedLogin" == event.data) {
+                        location = "/frontkickout?time=" + (sessionLoginCount + 1);
+                    }
+                }
+
+                //连接发生错误的回调方法
+                websocket.onerror = function () {
+// 	            alert(" how2j.cn 服务器正在重启，预计30-50秒，请稍等");
+
+                };
+
+                //连接关闭的回调方法
+                websocket.onclose = function () {
+                    //             alert(" how2j.cn 服务器正在重启，预计30-50秒，请稍等");
+                }
+
+                //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+                window.onbeforeunload = function () {
+                    closeWebSocket();
+                }
+
+            }
+
+            function closeWebSocket() {
+                websocket.close();
+            }
+        }
+
+    </script>
+
+
+    <script>
+        // var _hmt = _hmt || [];
+        // (function() {
+        //   var hm = document.createElement("script");
+        //   hm.src = "//hm.baidu.com/hm.js?58c8bc80fdcb0b8ec368371b4092c71a";
+        //   var s = document.getElementsByTagName("script")[0];
+        //   s.parentNode.insertBefore(hm, s);
+        // })();
+    </script>
+
+
+    <!-- code hightlight -->
+
+
+    <script>
+        window.onpageshow = function (event) {
+            if (event.persisted) {
+                window.location.reload()
+            }
+        };
+
+
+        function jumpwww() {
+            if (-1 != location.hostname.indexOf("www.")) {
+                var x = new String(location);
+                var newLocation = x.replace("www.", "");
+                location = newLocation;
+                return;
+            }
+
+        }
+
+
+        jumpwww();
+
+
+        function formatMoney(num) {
+            num = num.toString().replace(/\$|\,/g, '');
+            if (isNaN(num))
+                num = "0";
+            sign = (num == (num = Math.abs(num)));
+            num = Math.floor(num * 100 + 0.50000000001);
+            cents = num % 100;
+            num = Math.floor(num / 100).toString();
+            if (cents < 10)
+                cents = "0" + cents;
+            for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+                num = num.substring(0, num.length - (4 * i + 3)) + ',' +
+                    num.substring(num.length - (4 * i + 3));
+            return (((sign) ? '' : '-') + num + '.' + cents);
+        }
+
+        function insertSpecalDiv(div, className) {
+            var li = document.createElement("div");
+            var classAttr = document.createAttribute("class");
+            var text = document.createTextNode(" ");
+            li.appendChild(text);
+            classAttr.nodeValue = className;
+            li.setAttributeNode(classAttr);
+            div.appendChild(li);
+        }
+
+        <!--code mirror-->
+        var yourcode, siteCode, divDiffer, highlight = true, connect = null, collapse = false;
+
+        function betterTab(cm) {
+            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+            cm.replaceSelection(spaces);
+        }
+
+        function initUI() {
+            var target = document.getElementById("codeDifferOriginal");
+            target.innerHTML = "";
+            divDiffer = CodeMirror.MergeView(target, {
+                value: yourcode,
+                origRight: null,
+                orig: siteCode,
+                lineNumbers: true,
+                extraKeys: {Tab: betterTab},
+                mode: "text/html",
+                highlightDifferences: highlight,
+                connect: connect,
+                collapseIdentical: collapse
+            });
+        }
+
+        function changeDivCode2CodeStyle(mask4spider) {
+            var selector = "";
+            if (mask4spider)
+                selector = "div.stephighlightDescOnly.mask4spider-true div.code";
+            else
+                selector = "div.code";
+// 		console.log("selector:"+selector);
+            $(selector).each(function () {
+                var div = this;
+                var html = $(this).html();
+                html = $.trim(html);
+                html = html.replace(/^<br>(.*)<br>$/, "\$1");
+                html = html.replace();
+                var lines = html.split("<br>");
+                $(this).html("");
+
+                insertSpecalDiv(div, "codeeven codefirst");
+
+                var count = 0;
+                $.each(lines, function (i, n) {
+                    count++;
+                    var li = document.createElement("div");
+                    var text = document.createTextNode(decodeHtml(n));
+                    li.appendChild(text);
+
+                    var classAttr = document.createAttribute("class");
+                    if (0 == i % 2)
+                        classAttr.nodeValue = "codeodd";
+                    if (1 == i % 2)
+                        classAttr.nodeValue = "codeeven";
+                    li.setAttributeNode(classAttr);
+
+                    div.appendChild(li);
+                })
+
+                if (0 != count % 2)
+                    insertSpecalDiv(div, "codeeven codelast");
+                else
+                    insertSpecalDiv(div, "codeodd codelast");
+            });
+        }
+
+        $(function () {
+            <!--把div.code中的文本转换为代码表现风格-->
+            changeDivCode2CodeStyle(false);
+
+            <!--每个stage的享字所具备的弹出模态窗口效果-->
+
+            $("a.addModuleScoreModalLink").click(function () {
+                var stageid = $(this).attr("stageid");
+                var locationPathName = location.pathname;
+                if (locationPathName.indexOf("frontstage") != -1) {
+                    $("div#moduleScoreModal div.scoreLink input.scoreInputText").val("https://how2j.cn/stage/" + stageid + ".html?p=" + uid);
+                    $("div#moduleScoreModal").modal('show');
+                } else {
+                    $("div#moduleScoreModal div.scoreLink input.scoreInputText").val("https://how2j.cn?p=" + uid);
+                    $("div#moduleScoreModal").modal('show');
+                }
+
+                var shortInput = $("div.scoreLink input.shortLinkInputText");
+                shortInput.hide();
+                $("button.getShortLinkButton").show();
+
+            });
+
+            $("#scoreModal").on("show.bs.modal", function () {
+                $('#qrcode').html("");
+                $('#qrcode').qrcode({
+                    render: 'canvas',
+                    text: $("div#scoreModal div.scoreLink input.scoreInputText").val(),
+                    width: 200,
+                    height: 200
+                });
+            });
+
+            $("#moduleScoreModal").on("show.bs.modal", function () {
+                $('#qrcode').html("");
+                $('#qrcode').qrcode({
+                    render: 'canvas',
+                    text: $("div#moduleScoreModal div.scoreLink input.scoreInputText").val(),
+                    width: 200,
+                    height: 200
+                });
+            });
+
+
+            <!--练习姿势-->
+            $("a.practisePostureLink").click(function () {
+                $("div#practiseModal").modal('show');
+            });
+
+
+            <!--视频加载成功后的处理-->
+            $("div.4safari video").attr("poster", "");
+//     	$("div.4safari video").each(function(){
+//     		var videoSrc=$(this).attr("thefile");
+//     		$(this).attr("src",videoSrc);
+//     	});
+//     	$("div.4safari video").attr("preload","meta");
+//     	$("div.4safari video").on("canplaythrough",function(){
+//             $(this).attr("poster","");
+//         });
+
+            <!--处理短链接-->
+            $("button.getShortLinkButton").click(function () {
+                $(this).hide();
+                var url = $("div.scoreLink input.scoreInputText").val();
+                console.log("url:" + url);
+                var shortInput = $("div.scoreLink input.shortLinkInputText");
+                shortInput.show();
+                $.get(
+                    "/frontcreateShortLink",
+                    {"shortLink.url": url},
+                    function (result) {
+                        var shortid = result;
+                        shortInput.val("https://how2j.cn/p/" + shortid);
+                    }
+                );
+
+
+            });
+
+            <!--为form获取validToken-->
+            $("form.validTokenForm").submit(function (event) {
+                var form = $(this);
+                var input = $(this).find("input[name='tempBean.validToken']");
+                var validToken = input.val();
+                if (validToken.length != 0)
+                    return true;
+                event.preventDefault();
+                $.get("/frontvalidToken", function (data) {
+                    form.append("<input type='hidden' name='tempBean.validToken'");
+                    input.val(data);
+                    form.submit();
+                });
+            });
+
+            <!--超过5行的答案点击后显示-->
+            $("a.showAnswerCodeLink").click(function () {
+                $(this).hide();
+                var aid = $(this).attr("aid");
+                $("div.answerCode[aid=" + aid + "]").show(0);
+            });
+        });
+    </script>
+
+
+    <script>
+        //当bootstrap toc 加载完毕后，才进行跳转
+        var go2ArchorFlag = true;
+        //当show it ,try it, toc 的额外高度
+        var showittryitheight = 30;
+
+
+        var l = function (msg) {
+            return console.log(msg)
+        };
+        $(function () {
+            $("[data-toggle='tooltip']").tooltip({animation: true, html: true, delay: {show: 1000, hide: 000}});
+
+
+        });
+
+
+    </script>
+
+    <style>
+        <!--
+        pre {
+        --> <!-- width: 500 px;
+        --> <!--
+        }
+
+        -->
+    </style>
+
+
+    <title>在线"充电"平台</title>
+
+</head>
+<body style="width: 1458px;">
+
+
+<script>
+
+
+    $(function () {
+        var categorySelected = 0;
+
+        if (categorySelected == 1) {
+            $("#homepageNavLink").removeClass("active");
+        }
+
+
+//       	$("#qqqunspan").html("官方QQ群: 496725845");
+
+
+        $(".advertiseLink#ad15").mouseenter(function (e) {
+            $("#qrcodeImg4Ad").show();
+
+            var e = e || window.event;
+            var scrollx = window.scrollX || document.documentElement.scrollLeft;
+            var scrolly = window.scrollY || document.documentElement.scrollTop;
+            var x = parseFloat(e.clientX) + parseFloat(scrollx);
+            var y = parseFloat(e.clientY) + parseFloat(scrolly);
+
+            $("#qrcodeImg4Ad").css({'left': x, 'top': y, 'display': 'block'});
+
+        });
+        $(".advertiseLink#ad15").mouseleave(function () {
+            $("#qrcodeImg4Ad").hide();
+        });
+
+    });
+
+</script>
+<div id="allContent">
+    <!-- end with footer -->
+
+    <div  th:replace="~{fragments/index-two-nav}">...</div>
+
+    <br>
+    <div id="showTableContainer">
+        <table width="100%" class="showTable1" id="showTable1">
+
+        <tbody>
+        <tr valign="top">
+            <td width="145px" style="padding-left:20px">
+
+
+                <script>
+                    $(function () {
+
+
+
+                        $(".moduleItemLeft[count='1']").addClass("active");
+// 		$(".moduleItemRight").hide();
+// 		$("div#s"+25).show();
+
+                    });
+                </script>
+
+            <nav>
+                <div style="width:180px">
+                    <a href="#" class="disabled list-group-item">
+                        阶段
+                    </a>
+                    <th:block th:if="${#lists.size(indexTwoModel.courseList) eq 0}">
+                        <a
+                                sid="12"    class="list-group-item moduleItemLeft ">
+                            <span >没有对应课程</span> </a>
+                    </th:block>
+                    <th:block th:each="course,obj:${indexTwoModel.courseList}">
+                        <a
+                           sid="12" th:attr="count=${obj.count},courseId=${course.courseId}"  class="list-group-item moduleItemLeft ">
+                            <span th:text="${course.courseName}">JAVA 基础</span> </a>
+                    </th:block>
+                </div>
+            </nav>
+
+
+            </td>
+            <td style="padding-left:40px;padding-right:40px">
+                <div class="panel panel-default moduleItemRight">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-list basicColor"></span>
+                        课程章节列表
+
+
+                        <a class="requireAuthentication pull-right addModuleScoreModalLink" stageid="25"
+                           href="https://how2j.cn/stage/25.html#nowhere">
+                            <span style="border:1px solid LightSlateGray; margin-left:15px; adding:2px;font-weight:bold"
+                                  class="text-warning bg-warning">享</span>
+                        </a>
+
+                    </div>
+                    <style>
+
+                        a.module {
+                            display: block;
+                            width: 330px;
+                            height: 150px;
+                            margin: 25px;
+                            padding: 10px;
+                            background-color: #d9edf7;
+                            float: left;
+                            border-radius: 18px;
+                            position: relative;
+
+                        }
+
+                        a.module span.moduleNumber {
+                            position: absolute;
+                            top: 120px;
+                            left: 250px;
+                            color: #BC8F8F;
+                            background-color: #F5F5DC;
+                            border: 1px green silver;
+                        }
+
+                        a.module span.progressBar {
+                            display: inline-block;
+                            position: absolute;
+                            left: 0px;
+                            top: 170px;
+                            width: 100%;
+                        }
+
+                        a.module:hover {
+                            background-color: #dff0d8;
+                        }
+
+
+                    </style>
+                    <div class="panel-body" id="courseContainer">
+
+
+                        <!-- JiaThis Button BEGIN -->
+                        <div id="courseTable">
+                            <th:block th:if="${ courseSectionList == null|| #lists.size(courseSectionList) eq 0}">
+                                没有对应章节
+                            </th:block>
+                            <th:block th:each="courseSection,obj:${courseSectionList}">
+                                <a th:href="@{/business/main/chooseSection/{sectionId}(sectionId=${courseSection.sectionId})}" class="module">
+
+        <!--                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAQAAAAsXwcHAAACoElEQVR42pWVb2hNcRjHf9eWbeRfLM24m5CSkpv/sjef5Y3kT3lHUf68IC8oSiRCQnknZEr+xExaeSmJaVqXbZjovtDMmL9pNUz3nnnOOfec+5x7z9nsPHXvOc95nud8n+f5Ps/PmLwLwwjKWc4J6mnkuUij3B1jKZOIYQa9sKWS3ST5hsWAEouvtLCTCtsm2n2MOL8gHXDVkqZVgowm4ttVXKE/0tmTP1xiWh4Ox30hzUM6e9JEIhBCHmYMw92WJ0xHuU/k5rDcbbnBBHz4e8n4LzJ8okc9e/Kb9/xUzxn2OGnIzyxSSn2NuczhfF45v4t5nFqeKV2KmXaAGKeV8rVbYWnVSRXiMxspcvRrpAs561PEjLAuqVQvbao4uEYJ+1zjbjYIO13tSkklZ52k3LCW3gBVDjMya1zGUQnRxXq3ZfI7hXuBxHpZZ4QWwWL1sd8PUSqZr1Lud/IIPkCd4XZBvfs4JK7eYMWyd3H5ulVg22B4ENLjX5JIKZqn8TzwnjwyvIlg/D5veJ2CRhEtZXgc+uIVNR7b5b+IbcKEMLsWQ0OIuoMVelicWmwNDXHXcLVA2c4iTFYqGOuXc0tIiOuGTVIyrWplgd+4eZLgBcb7ITbzI2Dbz3a7u+0Bztf6X0/IErOpdVGm1QtxIDBmHVTZBTqnVE8Zh7dg2tSATc6GqBGW5KwvU+wC7VYIHOaxLIDL4pYwwVDCEYWgx07WBXZcGXcJzIN05hXLkh20Q5LR3z9rT6gLrJL7AeNw0liBN01Uo6g6n7fDWmjvWKKY4oRYLcr/df8gGyJksS/mYSR8Lc3Si8JDzgkxlTOyUgdz/iJNr4483pyxSYhJZ8gJ9VeA1wnJi4c+YEuYLS2rlw38UXiYFkxtMnK7ZFeXFTr/A78pSbmb/po5AAAAAElFTkSuQmCC">-->
+                                    [第[[${obj.count}]]章]<span class="moduleName pull-right" th:text="'['+${courseSection.sectionName}+']'">[异常处理]</span>
+
+                                    <br>
+                                    <br>
+                                    <span th:text="${courseSection.sectionDescribes}">用java打开LOL.exe文件，但是文件不存在 ...</span>
+                                    <span class="badge moduleNumber pull-right" th:text="${obj.count}">1</span>
+
+                                    <span class="requireAuthentication">
+                                        <span class="progressBar ">
+
+                                            <div class="progress">
+                                                <div mid="56" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0"
+                                                     aria-valuemax="100" style="width:0%;min-width: 2em;S">
+                                                    0%
+                                                </div>
+                                            </div>
+                                         </span>
+                                    </span>
+                                 </a>
+                            </th:block>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <script>
+        $(function () {
+
+
+        });
+
+    </script>
+
+
+    <div>
+
+
+        <div class="modal fade" id="moduleScoreModal" data-backdrop="static" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel">
+            <div style="width:500px" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span
+                                class="sr-only">Close</span></button>
+                        <h4 class="modal-title">分享连接</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>分享如下连接可增加积分，获取<span class="text-warning" style="font-size:16px">50%</span>佣金</p>
+                        <div class="scoreLink">
+                            <input type="text" style="width:100%" class="form-control scoreInputText"
+                                   value="https://how2j.cn/s/moduleScore">
+                            <div style="margin-top:10px">
+                                <button class="btn btn-success getShortLinkButton">获取短链接</button>
+                                <input type="text" style="display:none; width:100%"
+                                       class="form-control shortLinkInputText" value="">
+                            </div>
+                        </div>
+
+                        <div style="width:300px; margin:20px auto;">
+                            <span class="text-muted">如果不方便发连接（如贴吧），可以使用如下由连接转换为的二维码. 鼠标在图片上右键，然后另存为即可</span>
+                        </div>
+
+                        <div style="width:200px; margin:20px auto;">
+
+                            <div id="qrcode"></div>
+                        </div>
+
+                        <div>
+                            <span class="strong">警告：</span> 请勿使用挂机软件刷积分，刷积分不会导致任何注册量，很容易被识别。 一旦发现刷积分，即封号处理，请勿做吃力不讨好之事。
+                        </div>
+                        <div style="width:100%" id="codeDifferView"></div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <footer class="footer" id="footer">
+
+        <a href="/business/main/index">online-study</a>
+
+    </footer>
+
+
+    <script type="text/javascript">
+        function syntaxCallback() {
+            $('div.syntaxhighlighter').each(function () {
+                var width = ($("div#allContent").width() - 255) * 0.95;
+
+                var commentHighLight = $(this).parent().parent().parent().attr("commentHighLight");
+
+                var commentWidth = $(".eachCommentDiv:visible").width();
+                commentWidth -= 150;
+
+                if ("true" == commentHighLight) {
+                    $(this).css("width", commentWidth + "px");
+                } else {
+                    $(this).css("width", width + "px");
+                }
+
+                $(".eachCommentDescDiv").css("width", commentWidth + "px");
+
+            });
+        }
+
+        $(function () {
+
+            var count = SyntaxHighlighter.findElements().length,
+                now = 0;
+            SyntaxHighlighter.complete = function (callback) {
+                (function wait() {
+                    setTimeout(function () {
+                        now = $('div.syntaxhighlighter');
+                        if (now.length < count) {
+                            wait();
+                        } else {
+                            syntaxCallback();
+                        }
+                    }, 200);
+                })();
+            };
+
+
+            $(document).ready(function () {
+                $(".stepCode").on("dblclick", ".syntaxhighlighter", function () {
+                    var textarea = $(this).find('textarea');
+                    textarea.val(textarea.val().replace(new RegExp(String.fromCharCode(160), 'g'), " "));
+                    textarea.trigger("select");
+                });
+                $(".answerCode").on("dblclick", ".syntaxhighlighter", function () {
+                    var textarea = $(this).find('textarea');
+                    textarea.val(textarea.val().replace(new RegExp(String.fromCharCode(160), 'g'), " "));
+                    textarea.trigger("select");
+                });
+                SyntaxHighlighter.all();
+            })
+
+            SyntaxHighlighter.all();
+            SyntaxHighlighter.complete(syntaxCallback);
+
+            // Line wrap back
+            var shLineWrap = function () {
+                $('.syntaxhighlighter').each(function () {
+                    // Fetch
+                    var $sh = $(this),
+                        $gutter = $sh.find('td.gutter'),
+                        $code = $sh.find('td.code');
+                    // Cycle through lines
+                    $gutter.children('.line').each(function (i) {
+                        console.log(new Date());
+                        // Fetch
+                        var $gutterLine = $(this),
+                            $codeLine = $code.find('.line:nth-child(' + (i + 1) + ')');
+                        //alert($gutterLine);
+                        // Fetch height
+                        var height = $codeLine.height() || 0;
+                        if (!height) {
+                            height = 'auto';
+                        } else {
+                            height = height += 'px';
+                            //alert(height);
+                        }
+                        // Copy height over
+                        $gutterLine.attr('style', 'height: ' + height + ' !important'); // fix by Edi, for JQuery 1.7+ under Firefox 15.0
+                        // 	console.debug($gutterLine.height(), height, $gutterLine.text(), $codeLine);
+                    });
+                });
+            };
+
+
+            // Line wrap back when syntax highlighter has done it's stuff
+// 	var shLineWrapWhenReady = function() {
+// 	if ($('.syntaxhighlighter').length === 0) {
+// 	setTimeout(shLineWrapWhenReady, 10);
+// 	} else {
+// 		//不能加载这个，否则当代码一多，就会超级卡顿
+// // 	shLineWrap();
+// 	}
+// 	};  // Fire
+// 	shLineWrapWhenReady();
+
+        });
+    </script>
+</div> <!-- start from siteframe.jsp -->
+
+
+<script>
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    $(function () {
+        var tid = getQueryString("tid");
+        if (null != tid) {
+            var page = "/frontaddTrackEntry";
+            $.ajax({
+                url: page,
+                data: {"track.id": tid},
+                success: function (result) {
+
+                }
+            });
+        }
+
+        var pid = getQueryString("p");
+        if (null != pid) {
+// 		console.log(pid);
+// 		console.log(56628==pid);
+            if (56628 == pid)
+                return;
+            var page = "/frontshareByPID";
+            var referer = getReferrer();
+            $.ajax({
+                type: "post",
+                url: page,
+                data: {"user.id": pid, "shareReferer": referer},
+                success: function (result) {
+                }
+            });
+        }
+
+        $(document).keydown(function (event) {
+            //判断当event.keyCode 为37时（即左方面键），执行函数to_left();
+            //判断当event.keyCode 为39时（即右方面键），执行函数to_right();
+            <!--	    console.log(event.keyCode);-->
+            <!--	    if (event.keyCode == 37) {-->
+            <!--	    	history.back(-1);-->
+            <!--	    }-->
+            <!--	    if (event.keyCode == 39) {-->
+            <!--	    	history.forward(1);-->
+            <!--	    }-->
+        });
+
+
+    });
+    //获取键盘ascII码;
+    //$(document).keydown(function (event) {
+    //    alert(console.log(event.keyCode));
+    //    alert(event.keyCode);
+    //});
+
+
+</script>
+
+<script>
+    $(function () {
+        var hash = window.location.hash;
+        hash = hash.replace("#", "");
+
+        commentid = hash.replace("comment", "");
+
+        function go2Archor() {
+            if (!go2ArchorFlag) {
+                setTimeout(go2Archor, 1000);
+                return;
+            }
+            if (hash.length != 0) {
+                var pos = document.getElementById(hash);
+                if (null != pos)
+                    pos.scrollIntoView(true);
+                $("div.commentBody[cid=" + commentid + "]").show();
+            }
+        }
+
+        setTimeout(go2Archor, 1000);
+
+        setTimeout(function () {
+            $("div.stepAnswer").hide();
+        }, 500);
+
+        //4offline
+
+
+    });
+
+
+</script>
+
+
+<script>
+    function ajaxAuthorizedStepDescs() {
+        var url = "/frontajaxAuthorizedStepDescs?knowledge.id=&ajaxStepDescsToken=";
+        $.post(url,
+            function (data) {
+                var result = $.parseJSON(data);
+                var steps = result.steps;
+                var as = result.attachments;
+//                     console.log(as.length);
+                for (var k in as) {
+//                     	console.log("k-1:"+k);
+                    var a = as[k];
+                    var id = a.id;
+//                     	console.log("id:"+id);
+                    var link = $(".projectDownloadAttachment[index=" + k + "]");
+                    var attachmentName = $(".attachmentName[index=" + k + "]");
+
+                    var src = link.attr("href");
+                    src += id;
+                    link.attr("href", src);
+                    link.attr("title", a.name);
+                    attachmentName.html(a.name);
+                }
+                $(".showIfProjectRight").show();
+
+// 					console.log(data);
+                for (i in steps) {
+                    var old = $("#ajaxStepDescDiv").html();
+                    var step = steps[i];
+
+                    var sid = step.id;
+                    var highlightDesc = step.highlightDesc;
+//                          $("#ajaxStepDescDiv").html(old + "<br>"+step.id+"   -----   "+step.highlightDesc);
+//                          console.log("div.stephighlightDescOnly[sid="+sid+"]");
+                    $("div.stephighlightDescOnly[sid=" + sid + "]").html("");
+                    $("div.stephighlightDescOnly[sid=" + sid + "]").html(highlightDesc);
+                    $(".mask4spider-true").show();
+                }
+                changeDivCode2CodeStyle(true);
+            });
+    }
+</script>
+
+
+<!--<script th:src="@{~/static/index/z_stat.php}"></script>-->
+</body>
+</html>
